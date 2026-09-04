@@ -1,0 +1,30 @@
+{
+  "version": "v3.9.260",
+  "date": "2026-09-04",
+  "title": "Release Notes",
+  "enabled": true,
+  "show": {
+    "owner": true,
+    "branch": true,
+    "sysadmin": false
+  },
+  "banners": {
+    "owner": "v3.9.260: General system enhancements and stability fixes.",
+    "branch": "v3.9.260: General system enhancements and stability fixes.",
+    "default": "v3.9.260: General system enhancements and stability fixes."
+  },
+  "notes": {
+    "owner": [
+      "General improvements and fixes.",
+      "System stability and performance optimizations."
+    ],
+    "branch": [
+      "General improvements and fixes.",
+      "System stability and performance optimizations."
+    ]
+  },
+  "releaseDate": "2026-09-04",
+  "changes": [
+    "General improvements and fixes."
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-09-04T10:21:44.854Z",
+  "convexUrl": "https://lovely-rhinoceros-87.convex.cloud",
+  "allPassed": true,
+  "testResults": [
+    {
+      "name": "createBranchItem",
+      "status": "PASS",
+      "id": "m97dchdv77eh2xqakjrzj9q2p98drybe"
+    },
+    {
+      "name": "createSale_idempotency",
+      "status": "PASS",
+      "saleId": "p171jdpm60674dnjd3mt30wjp98ds77j"
+    },
+    {
+      "name": "transferBranchToBranchStock",
+      "status": "PASS",
+      "transferId": "pn76n8jx8gt6k8xyp1myyrxmq58dscqe"
+    },
+    {
+      "name": "insufficient_stock_rollback",
+      "status": "PASS"
+    },
+    {
+      "name": "centralInventory_dispatch",
+      "status": "PASS",
+      "remainingStock": 38
+    }
+  ]
+}

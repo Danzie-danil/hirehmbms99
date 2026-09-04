@@ -1,0 +1,1068 @@
+# BMSTZ — Production Hardening, Information Exposure & Backend Authority Directive
+
+## Objective
+
+Perform a comprehensive production-hardening pass on the BMSTZ web application.
+
+The goal is **not** to make the frontend impossible to inspect. That is neither realistic nor necessary for a browser application.
+
+The goal is to ensure that:
+
+1. The unauthenticated application exposes only the minimum information necessary.
+2. Internal BMSTZ modules, administrative terminology, security architecture, and role-specific functionality are not unnecessarily exposed before authentication.
+3. The frontend is treated as an **untrusted presentation client**.
+4. All authorization, tenant isolation, financial validation, and security-sensitive business logic are enforced authoritatively on the backend/database.
+5. Offline functionality cannot create unauthorized or authoritative financial mutations.
+6. Production JavaScript/CSS is properly bundled, hashed, minified, and deployed.
+7. Exposing or downloading the frontend source/assets must **not** provide a path to compromising BMSTZ data or financial operations.
+8. Existing BMSTZ functionality must not be broken while implementing these improvements.
+
+---
+
+# 1. First: Inspect the Existing Architecture
+
+Before changing anything, inspect the complete BMSTZ implementation.
+
+Determine:
+
+* Frontend framework and build system.
+* Production build configuration.
+* Routing architecture.
+* Authentication flow.
+* Authorization/RBAC implementation.
+* Supabase integration.
+* Supabase RLS policies.
+* Database functions/RPCs.
+* Edge Functions/API endpoints.
+* Financial transaction processing.
+* Ledger implementation.
+* Audit logging.
+* Offline/PWA implementation.
+* Service worker behavior.
+* IndexedDB/localStorage usage.
+* Environment variable usage.
+* Production asset generation.
+* Source-map configuration.
+* CDN/deployment configuration.
+* Any existing security headers.
+* Existing middleware/guards.
+* Existing tenant-isolation mechanisms.
+
+**Do not make assumptions. Inspect the actual implementation first.**
+
+Create an internal security/architecture inventory before modifying code.
+
+---
+
+# 2. Minimize Unauthenticated Information Exposure
+
+The current public application appears to expose substantial application/module vocabulary before authentication.
+
+Examples include concepts such as:
+
+* Dashboard
+* User Maintenance
+* Tenant Health
+* Revenue Analytics
+* Security & Lockout
+* Compliance
+* Vault
+* Feature Flags
+* Site Controls
+* Audit Logs
+* Pricing & Plans
+* Central Inventory
+* Financial Reports
+* Approval Queue
+* Payroll
+* Stock Ledger & Audit
+* Cash Drawer
+* Stock Transfers
+* Product Returns
+
+This is not automatically a vulnerability.
+
+However, it is unnecessary information disclosure and should be reduced where practical.
+
+## Required target
+
+The initial unauthenticated application should expose only what is required for unauthenticated users.
+
+Conceptually:
+
+```text
+Unauthenticated application
+        │
+        ├── Login
+        ├── Registration
+        └── Password recovery
+                │
+                ▼
+          Authentication
+                │
+                ▼
+        Fetch authenticated
+        user identity
+        tenant
+        role
+        permissions
+                │
+                ▼
+        Load authorized application
+```
+
+Do not unnecessarily ship the complete internal application vocabulary, administrative module definitions, or role-specific UI configuration to unauthenticated users.
+
+### Important
+
+Do NOT interpret this as a security boundary.
+
+The objective is **defense-in-depth and information minimization**, not authorization.
+
+---
+
+# 3. Do NOT Depend on Frontend Route Guards for Security
+
+Frontend route guards are useful for user experience but are not authoritative security controls.
+
+For example, this is insufficient:
+
+```text
+if (!isAdmin) {
+    hideVault();
+}
+```
+
+or:
+
+```text
+if (role !== "business_admin") {
+    redirect("/");
+}
+```
+
+A user must not be able to gain privileges simply by modifying frontend state, JavaScript, requests, localStorage, or route parameters.
+
+Every sensitive operation must be independently authorized by the trusted backend/database.
+
+The authoritative flow must conceptually be:
+
+```text
+Request
+   ↓
+Authenticated?
+   ↓
+Correct tenant?
+   ↓
+Correct user?
+   ↓
+Correct role?
+   ↓
+Correct permission?
+   ↓
+Resource belongs to tenant?
+   ↓
+Business rules satisfied?
+   ↓
+ALLOW
+```
+
+Otherwise:
+
+```text
+DENY
+```
+
+---
+
+# 4. Never Trust Client-Supplied Roles
+
+Review every authentication and authorization path for client-controlled role information.
+
+For example, do NOT trust a request such as:
+
+```json
+{
+  "role": "business_admin"
+}
+```
+
+as evidence that the user is a Business Admin.
+
+Likewise, do not trust:
+
+```json
+{
+  "tenant_id": "...",
+  "user_id": "...",
+  "permissions": [...]
+}
+```
+
+when those values originate from an untrusted client.
+
+The authoritative identity must come from the authenticated session/token and trusted database records.
+
+The backend should derive:
+
+```text
+authenticated user
+        ↓
+membership
+        ↓
+tenant
+        ↓
+role
+        ↓
+permissions
+```
+
+Do not allow the client to elevate itself by changing a role selector, request body, localStorage value, React state, URL parameter, or network request.
+
+---
+
+# 5. Enforce Multi-Tenant Isolation at the Database Level
+
+BMSTZ is a multi-tenant financial/business system.
+
+Tenant isolation must therefore be enforced independently of the frontend.
+
+Review every tenant-sensitive table.
+
+For each table determine:
+
+* Does it contain `tenant_id`?
+* Is tenant ownership authoritative?
+* Is RLS enabled?
+* Are SELECT policies correct?
+* Are INSERT policies correct?
+* Are UPDATE policies correct?
+* Are DELETE policies correct?
+* Are RPC/function calls tenant-safe?
+* Can a user manipulate another tenant's IDs?
+* Can a user access records by guessing UUIDs?
+* Can a user alter `tenant_id`?
+* Can a privileged database function accidentally bypass tenant isolation?
+
+The desired security property is:
+
+> A compromised frontend session must not allow a user belonging to Tenant A to read, modify, delete, or otherwise influence Tenant B's data.
+
+Test this explicitly.
+
+---
+
+# 6. Treat Financial Data as Backend-Authoritative
+
+The following operations require particular scrutiny:
+
+* Sales
+* Payments
+* Stock adjustments
+* Inventory quantities
+* Cash drawer operations
+* Stock transfers
+* Returns
+* Payroll
+* Financial journal entries
+* Ledger entries
+* Approvals
+* Financial reports
+* Balance calculations
+* Tenant financial configuration
+
+Do not rely on client-side calculations for authoritative financial values.
+
+For example, avoid a model where the client calculates:
+
+```text
+new_balance = old_balance + amount
+```
+
+and then submits:
+
+```json
+{
+  "balance": 500000
+}
+```
+
+The trusted backend/database should calculate and validate authoritative values.
+
+Conceptually:
+
+```text
+Client
+  │
+  │ "Create transaction for X"
+  ▼
+Backend
+  │
+  ├── authenticate
+  ├── authorize
+  ├── validate
+  ├── verify tenant
+  ├── verify account/resource
+  ├── verify business rules
+  ├── calculate authoritative values
+  ├── write ledger
+  ├── update authoritative state
+  ├── write audit event
+  └── commit atomically
+```
+
+The frontend should receive the result.
+
+It should not dictate the authoritative financial state.
+
+---
+
+# 7. Protect Financial Mutations With Atomic Transactions
+
+Review every operation that modifies financial or inventory state.
+
+Where multiple records must change together, ensure the operation is atomic.
+
+For example:
+
+```text
+Sale
+ │
+ ├── create sale
+ ├── create sale items
+ ├── decrease inventory
+ ├── create financial/ledger entries
+ ├── update required balances
+ └── create audit record
+```
+
+These operations should not be allowed to partially succeed.
+
+If one required component fails, the entire authoritative operation should fail/rollback.
+
+Do not implement critical multi-step financial mutations as a series of independently trusted frontend requests unless there is a deliberate transactional/idempotent architecture supporting that behavior.
+
+---
+
+# 8. Implement Idempotency for Critical Operations
+
+Review operations that could accidentally execute twice because of:
+
+* double-clicks
+* network retries
+* browser retries
+* offline synchronization
+* service-worker replay
+* API retry logic
+* mobile connectivity problems
+* duplicate requests
+
+Financial mutations should have an appropriate idempotency strategy.
+
+Conceptually:
+
+```text
+operation
+    ↓
+unique idempotency key
+    ↓
+server checks whether already processed
+    ↓
+if processed → return existing result
+if not → process atomically
+```
+
+This is particularly important for:
+
+* payments
+* sales
+* stock transfers
+* cash operations
+* financial postings
+* payroll operations
+
+---
+
+# 9. Audit Everything That Matters
+
+BMSTZ contains sensitive administrative and financial modules.
+
+Review the audit system for events including:
+
+* authentication events
+* failed authentication
+* MFA events
+* password/PIN changes
+* role changes
+* permission changes
+* tenant configuration changes
+* financial transactions
+* transaction reversals
+* inventory adjustments
+* stock transfers
+* approvals
+* rejected approvals
+* security-setting changes
+* feature-flag changes
+* administrative actions
+* sensitive data access where appropriate
+
+Audit records should be:
+
+* timestamped
+* associated with the authenticated actor
+* associated with the tenant
+* associated with the affected resource
+* sufficiently descriptive
+* resistant to unauthorized modification/deletion
+
+Do not allow ordinary users to rewrite their own audit history.
+
+---
+
+# 10. Review BMSTZ Offline/PWA Architecture
+
+BMSTZ advertises offline capabilities.
+
+This must receive a dedicated security review.
+
+## Safe candidates for local caching
+
+Potential examples:
+
+```text
+Product catalogue
+Non-sensitive reference data
+Business settings
+UI preferences
+Previously viewed non-sensitive information
+```
+
+## High-risk offline operations
+
+Treat these as sensitive:
+
+```text
+Sales
+Payments
+Stock adjustments
+Cash drawer operations
+Stock transfers
+Payroll
+Financial journal entries
+Approvals
+Role changes
+Permission changes
+Security configuration
+```
+
+Do not automatically make these operations authoritative while offline.
+
+Use a controlled synchronization architecture:
+
+```text
+OFFLINE DEVICE
+      │
+      │ create pending operation
+      ▼
+LOCAL QUEUE
+      │
+      │ reconnect
+      ▼
+SERVER
+      │
+      ├── authenticate
+      ├── identify tenant
+      ├── verify authorization
+      ├── validate request
+      ├── validate version/state
+      ├── verify idempotency
+      ├── apply business rules
+      ├── execute atomic transaction
+      └── create audit event
+```
+
+The server/database remains authoritative.
+
+---
+
+# 11. Audit localStorage and IndexedDB
+
+Search the application for:
+
+```text
+localStorage
+sessionStorage
+IndexedDB
+Cache Storage
+Service Worker
+Web Crypto
+```
+
+Identify whether sensitive information is stored locally.
+
+Do not store secrets or highly sensitive credentials unnecessarily in browser storage.
+
+Pay particular attention to:
+
+* access tokens
+* refresh tokens
+* financial data
+* PINs
+* passwords
+* recovery information
+* privileged configuration
+* tenant credentials
+* administrative data
+
+Use the authentication architecture appropriate to the framework and Supabase configuration rather than inventing custom credential storage.
+
+---
+
+# 12. Production Frontend Build
+
+BMSTZ should use a proper production build.
+
+Target architecture:
+
+```text
+React/Vite source
+       ↓
+Production build
+       ↓
+Bundling
+       ↓
+Minification
+       ↓
+Code splitting
+       ↓
+Hashed assets
+       ↓
+CDN / production hosting
+```
+
+Examples of acceptable production assets:
+
+```text
+/assets/index-B7xK92Lm.js
+/assets/index-C8mP41Qa.css
+/assets/Dashboard-Dk82mQpL.js
+/assets/Transactions-A8mK91Qx.js
+```
+
+Hashed filenames are desirable for cache invalidation and production deployment.
+
+Do not expose development-style structures unnecessarily.
+
+---
+
+# 13. Use Code Splitting for Sensitive/Admin Modules
+
+Where practical, don't ship the complete application module set to every user.
+
+Instead, use authenticated and permission-aware loading.
+
+Conceptually:
+
+```text
+Login
+  ↓
+Authentication
+  ↓
+Fetch permissions
+  ↓
+Load permitted application chunks
+```
+
+For example:
+
+```text
+Business Admin
+    ↓
+admin-specific chunks
+
+Branch Manager
+    ↓
+manager-specific chunks
+
+BSO
+    ↓
+BSO-specific chunks
+```
+
+This does NOT replace backend authorization.
+
+It simply reduces:
+
+* unnecessary download size
+* information exposure
+* initial application complexity
+* accidental availability of irrelevant modules
+
+---
+
+# 14. Production Source Maps
+
+Inspect whether production source maps are publicly accessible.
+
+Look for:
+
+```text
+*.map
+sourceMappingURL
+```
+
+If source maps expose original source code, internal paths, comments, component names, business logic, or sensitive implementation details, determine whether they should be disabled or access-controlled in production.
+
+If error monitoring requires source maps, upload them privately to the monitoring system rather than unnecessarily serving them publicly.
+
+---
+
+# 15. Never Put Secrets in the Frontend
+
+Perform a full production bundle scan for:
+
+```text
+service_role
+SUPABASE_SERVICE_ROLE_KEY
+database passwords
+private API keys
+bank credentials
+payment-provider secrets
+encryption master keys
+private signing keys
+JWT signing secrets
+internal credentials
+```
+
+Anything delivered to browser JavaScript should be considered potentially public.
+
+Do not attempt to hide a secret through:
+
+```text
+minification
+obfuscation
+environment variables
+base64
+hashed filenames
+dynamic imports
+```
+
+If the browser receives it, it is not secret.
+
+Keep sensitive credentials on trusted server-side infrastructure.
+
+---
+
+# 16. Supabase Public Configuration
+
+Review the Supabase configuration used by the frontend.
+
+It is normal for a browser application to contain configuration required to connect to Supabase.
+
+However, verify that the frontend does NOT contain privileged credentials.
+
+Most importantly:
+
+```text
+SUPABASE_ANON_KEY
+```
+
+must not be confused with:
+
+```text
+SUPABASE_SERVICE_ROLE_KEY
+```
+
+The service-role credential must never be bundled into browser code.
+
+The security model must depend on authentication, RLS, authorization, and controlled backend functions—not on keeping the public Supabase client configuration secret.
+
+---
+
+# 17. Security Headers
+
+Inspect production HTTP response headers.
+
+Where appropriate, evaluate:
+
+```text
+Strict-Transport-Security
+Content-Security-Policy
+X-Content-Type-Options
+Referrer-Policy
+Permissions-Policy
+```
+
+Also verify:
+
+```text
+HTTPS
+secure cookies where applicable
+appropriate SameSite configuration
+```
+
+Do not blindly add a CSP that breaks the application.
+
+Develop a policy based on actual resource requirements and test it thoroughly.
+
+---
+
+# 18. Do Not Attempt to Make the Frontend "Uninspectable"
+
+This is an explicit architectural principle.
+
+Users can inspect:
+
+* JavaScript
+* CSS
+* network requests
+* DOM
+* public assets
+* browser storage
+* frontend behavior
+
+That is inherent to browser applications.
+
+Do not waste development effort attempting to make the frontend impossible to inspect.
+
+Instead, ensure that inspecting the frontend does not grant authority.
+
+The key security test is:
+
+> If an attacker downloads every BMSTZ JavaScript and CSS asset and understands the frontend completely, can they manipulate another tenant's financial data?
+
+The required answer is:
+
+# NO.
+
+They must still be blocked by:
+
+* authentication
+* authorization
+* tenant isolation
+* RLS
+* backend validation
+* database constraints
+* transaction integrity
+* audit controls
+
+---
+
+# 19. Target BMSTZ Architecture
+
+The desired production architecture is:
+
+```text
+                         INTERNET
+                            │
+                            ▼
+                    ┌───────────────┐
+                    │    BMSTZ UI   │
+                    │ React + Vite  │
+                    └───────┬───────┘
+                            │
+                       HTTPS only
+                            │
+                            ▼
+                    ┌───────────────┐
+                    │ Authentication│
+                    │    + MFA      │
+                    └───────┬───────┘
+                            │
+                            ▼
+                    ┌───────────────┐
+                    │ Authorization │
+                    │    RBAC/ABAC  │
+                    └───────┬───────┘
+                            │
+                    ┌───────▼───────┐
+                    │ Edge/API      │
+                    │ Functions     │
+                    └───────┬───────┘
+                            │
+              ┌─────────────┼─────────────┐
+              ▼             ▼             ▼
+          Validation      Ledger       Audit
+              │             │             │
+              └─────────────┼─────────────┘
+                            ▼
+                    ┌───────────────┐
+                    │ PostgreSQL    │
+                    │               │
+                    │ RLS           │
+                    │ Constraints   │
+                    │ Transactions  │
+                    └───────────────┘
+```
+
+Every authoritative financial mutation should ultimately pass through this trusted path.
+
+---
+
+# 20. Required Security Tests
+
+Do not simply modify code and assume it is secure.
+
+After implementation, test at minimum:
+
+## Tenant isolation
+
+Attempt to access Tenant B resources while authenticated as Tenant A.
+
+Expected:
+
+```text
+DENIED
+```
+
+## Role escalation
+
+Attempt to change:
+
+```text
+role
+permissions
+tenant_id
+user_id
+```
+
+through client requests.
+
+Expected:
+
+```text
+DENIED
+```
+
+## Direct endpoint access
+
+Attempt to call sensitive backend functions directly without the appropriate permission.
+
+Expected:
+
+```text
+DENIED
+```
+
+## Manipulated financial values
+
+Attempt to submit modified:
+
+```text
+amount
+balance
+quantity
+price
+tenant_id
+account_id
+```
+
+Expected:
+
+```text
+SERVER VALIDATES AND REJECTS INVALID/UNAUTHORIZED VALUES
+```
+
+## Duplicate transactions
+
+Replay the same financial request.
+
+Expected:
+
+```text
+ONE AUTHORITATIVE TRANSACTION
+```
+
+## Offline replay
+
+Create an offline operation and replay it multiple times after reconnecting.
+
+Expected:
+
+```text
+NO DUPLICATE FINANCIAL POSTING
+```
+
+## Unauthorized audit modification
+
+Attempt to modify/delete audit records as an ordinary user.
+
+Expected:
+
+```text
+DENIED
+```
+
+## Frontend manipulation
+
+Modify:
+
+* React state
+* localStorage
+* route parameters
+* request payloads
+* client-side role values
+* UI visibility
+
+Expected:
+
+```text
+NO PRIVILEGE ESCALATION
+```
+
+---
+
+# 21. Regression Protection
+
+Do not sacrifice existing BMSTZ functionality.
+
+Before completing the work, verify:
+
+* Login
+* Registration
+* Password recovery
+* MFA
+* Business Admin
+* Branch Manager
+* BSO
+* Tenant switching where legitimately supported
+* Dashboard
+* Inventory
+* Sales
+* Purchases
+* Stock transfers
+* Returns
+* Finance
+* Payroll
+* Reports
+* Audit
+* Approvals
+* Notifications
+* PWA installation
+* Offline behavior
+* Reconnection/synchronization
+
+Any security improvement that breaks legitimate workflows must be corrected rather than simply disabling the feature.
+
+---
+
+# 22. Final Acceptance Criteria
+
+The implementation is considered successful only if all of the following are true:
+
+### Frontend
+
+* Production assets are bundled.
+* Assets are hashed.
+* Assets are minified.
+* Appropriate code splitting is used.
+* Development artifacts are removed.
+* Public source maps are not unnecessarily exposed.
+* Unauthenticated HTML exposes minimal internal application information.
+
+### Authentication
+
+* Client-selected roles are never trusted.
+* Authentication is server-authoritative.
+* MFA/step-up controls remain authoritative.
+* Sensitive operations require appropriate authentication state.
+
+### Authorization
+
+* Frontend guards are treated as UX only.
+* Backend/database authorization is authoritative.
+* Privilege escalation through modified requests is prevented.
+* Tenant isolation is enforced independently of the frontend.
+
+### Database
+
+* RLS is enabled wherever required.
+* RLS policies are correctly scoped.
+* Tenant IDs cannot be maliciously reassigned.
+* Database constraints protect authoritative state.
+* Financial mutations are atomic where required.
+
+### Financial system
+
+* Financial values are calculated/validated authoritatively.
+* Duplicate submissions cannot create duplicate financial effects.
+* Inventory and financial state cannot be manipulated through client-side values.
+* Critical operations generate appropriate audit records.
+
+### Offline/PWA
+
+* Offline caching is deliberately scoped.
+* Sensitive authoritative mutations are not blindly trusted offline.
+* Synchronization is authenticated.
+* Synchronization validates tenant and permissions.
+* Idempotency prevents duplicate transactions.
+
+### Secrets
+
+* No service-role key is exposed.
+* No database password is exposed.
+* No private API credential is exposed.
+* No encryption/signing secret is exposed.
+* No sensitive credential is stored unnecessarily in browser-accessible storage.
+
+### Security
+
+* HTTPS is enforced.
+* Security headers are reviewed and appropriately configured.
+* CSP is implemented where practical without breaking legitimate functionality.
+* Direct API/function access is properly authorized.
+* Audit records are protected from unauthorized modification.
+
+---
+
+# 23. Final Security Principle
+
+The final BMSTZ architecture must follow this principle:
+
+> **The frontend is an untrusted presentation client. The backend and database are the authorities.**
+
+The application should remain secure even if an attacker:
+
+* downloads every JavaScript file,
+* downloads every CSS file,
+* inspects the DOM,
+* reads all public frontend configuration,
+* understands the React components,
+* modifies frontend state,
+* modifies request payloads,
+* calls backend endpoints directly,
+* attempts to manipulate tenant IDs,
+* attempts to modify roles,
+* attempts to replay transactions.
+
+The frontend should never possess the authority required to compromise the financial system.
+
+### Final objective
+
+Do not merely make BMSTZ **look proprietary**.
+
+Make its **business logic, financial authority, tenant isolation, authorization model, transaction integrity, and security controls genuinely server-authoritative**.
+
+That is the standard required for BMSTZ to be treated as a serious production financial/business SaaS platform.
+
+---
+
+## Agent Execution Rule
+
+**Inspect first. Modify second. Test third. Report fourth.**
+
+Do not make broad architectural changes blindly.
+
+For every security change:
+
+1. Identify the current implementation.
+2. Explain the security weakness.
+3. Implement the smallest robust correction.
+4. Preserve existing functionality.
+5. Test the correction.
+6. Test for regression.
+7. Report exactly what changed.
+8. Report any remaining risks or areas that could not be verified.
+
+Do not claim a security control is implemented unless the actual code/database/deployment configuration confirms it.

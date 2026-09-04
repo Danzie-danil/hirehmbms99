@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">BMSTz</string>
+    <string name="title_activity_main">BMSTz</string>
+    <string name="package_name">com.bmstz.app</string>
+    <string name="custom_url_scheme">com.bmstz.app</string>
+</resources>

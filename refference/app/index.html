@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+        // Console filter shim for third-party browser extension log noise
+        (function() {
+            var origError = console.error;
+            var origWarn = console.warn;
+            function shouldSuppress(args) {
+                var str = '';
+                for (var i = 0; i < args.length; i++) {
+                    var a = args[i];
+                    str += ' ' + (a && (a.stack || a.message || a));
+                }
+                return str.includes('background.js') ||
+                       str.includes('fido2') ||
+                       str.includes('runtime.lastError') ||
+                       str.includes('triggerAutofillScriptInjection') ||
+                       str.includes('disconnected port') ||
+                       str.includes('No tab with id') ||
+                       str.includes('TargetingRulesDataService') ||
+                       str.includes('back/forward cache') ||
+                       str.includes('5500') ||
+                       str.includes('console-log.service') ||
+                       str.includes('local-backed-session-storage');
+            }
+            console.error = function() {
+                if (shouldSuppress(arguments)) return;
+                origError.apply(console, arguments);
+            };
+            console.warn = function() {
+                if (shouldSuppress(arguments)) return;
+                origWarn.apply(console, arguments);
+            };
+        })();
+
+        // Self-healing handler for stale chunks / MIME type errors after new deployments
+        window.addEventListener('error', function (event) {
+            var msg = (event.message || '') + ' ' + (event.filename || '');
+            var target = event.target;
+            var isScriptTarget = target && target.tagName === 'SCRIPT';
+            var isChunkError = msg.includes('Failed to load module script') ||
+                               msg.includes('MIME type') ||
+                               msg.includes('JavaScript-or-Wasm') ||
+                               msg.includes('Strict MIME type') ||
+                               msg.includes('Loading chunk') ||
+                               msg.includes('dynamically imported module') ||
+                               msg.includes('Importing a module script failed') ||
+                               msg.includes("Unexpected token '<'") ||
+                               msg.includes('SyntaxError');
+
+            // Ignore runtime errors if app is already initialized & running normally
+            if (window.bmsAppInitialized && !isScriptTarget && !msg.includes('Failed to load module script') && !msg.includes('Loading chunk')) {
+                return;
+            }
+
+            if (isScriptTarget || isChunkError) {
+                if (!navigator.onLine) {
+                    console.warn('[BMS] Script loading notice while offline. Preserving offline cache.');
+                    event.preventDefault();
+                    return true;
+                }
+                var reloadKey = 'bms_chunk_heal_attempt';
+                var lastAttempt = parseInt(sessionStorage.getItem(reloadKey) || '0', 10);
+                var now = Date.now();
+                if (!lastAttempt || (now - lastAttempt) > 8000) {
+                    sessionStorage.setItem(reloadKey, String(now));
+                    console.warn('[BMS] Detected a stale script bundle or MIME error. Reloading the current shell without clearing offline data.');
+                    var cleanUrl = window.location.origin + window.location.pathname + '?_heal=' + now + (window.location.hash || '');
+                    window.location.replace(cleanUrl);
+                    event.preventDefault();
+                    return true;
+                }
+            }
+
+            var isExtensionNoise = msg.includes('Could not establish connection') ||
+                                   msg.includes('Receiving end does not exist') ||
+                                   msg.includes('content-script') ||
+                                   msg.includes('chrome-extension') ||
+                                   msg.includes('fido2') ||
+                                   msg.includes('triggerAutofillScriptInjection') ||
+                                   msg.includes('disconnected port') ||
+                                   msg.includes('No tab with id') ||
+                                   msg.includes('TargetingRulesDataService') ||
+                                   msg.includes('back/forward cache') ||
+                                   msg.includes('reload.js') ||
+                                   msg.includes('5500/ws');
+
+            if (isExtensionNoise) {
+                event.preventDefault();
+                return true;
+            }
+        }, true);
+
+        window.addEventListener('unhandledrejection', function (event) {
+            var msg = (event.reason && (event.reason.message || event.reason.stack || event.reason)) + '';
+            var isExtensionNoise = msg.includes('Could not establish connection') ||
+                                   msg.includes('Receiving end does not exist') ||
+                                   msg.includes('content-script') ||
+                                   msg.includes('chrome-extension') ||
+                                   msg.includes('fido2') ||
+                                   msg.includes('triggerAutofillScriptInjection') ||
+                                   msg.includes('disconnected port') ||
+                                   msg.includes('No tab with id') ||
+                                   msg.includes('TargetingRulesDataService') ||
+                                   msg.includes('back/forward cache') ||
+                                   msg.includes('reload.js') ||
+                                   msg.includes('5500/ws');
+
+            if (isExtensionNoise) {
+                event.preventDefault();
+                return true;
+            }
+        }, true);
+
+        // Failsafe timer: Guarantee #initial-loader never locks screen permanently
+        setTimeout(function () {
+            var loader = document.getElementById('initial-loader');
+            if (loader && !loader.classList.contains('fade-out')) {
+                console.warn('[BMS] Initial loader failsafe triggered after 5s. Dismissing overlay.');
+                loader.classList.add('fade-out');
+                setTimeout(function () { try { loader.remove(); } catch(e) {} }, 500);
+                var login = document.getElementById('loginScreen');
+                var app = document.getElementById('app');
+                if (login && (!app || app.classList.contains('hidden'))) {
+                    login.classList.remove('hidden');
+                }
+            }
+        }, 5000);
+
+        // Global Instant Refresh Handler with Animated Loading GIF & Typing Indicator Dots
+        window.triggerAppRefresh = function(btn) {
+            if (btn) {
+                var icon = btn.querySelector('i, svg');
+                if (icon) icon.classList.add('animate-spin');
+            }
+            var loader = document.getElementById('global-loader');
+            var msgEl = document.getElementById('loader-message');
+            if (loader) {
+                if (msgEl) {
+                    msgEl.innerHTML = 'Just a moment<span class="inline-flex items-center ml-1 gap-1 text-indigo-600 dark:text-indigo-400 align-baseline"><span class="inline-block w-1.5 h-1.5 rounded-full bg-current animate-ping-dot-1"></span><span class="inline-block w-1.5 h-1.5 rounded-full bg-current animate-ping-dot-2"></span><span class="inline-block w-1.5 h-1.5 rounded-full bg-current animate-ping-dot-3"></span></span>';
+                }
+                loader.classList.remove('hidden');
+                loader.style.display = 'flex';
+                loader.style.opacity = '1';
+                loader.style.visibility = 'visible';
+            }
+            setTimeout(function() {
+                window.location.reload();
+            }, 120);
+        };
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BMSTz Web App | POS Terminal, Multi-Branch Management & Sales Portal</title>
+    <meta name="description" content="Access the BMSTz Web Application portal. Tanzania's premier POS sales terminal, multi-branch management dashboard, inventory stock ledger, staff payroll, and real-time business reporting system.">
+    <meta name="keywords" content="BMSTz app, BMSTz POS app, BMSTz web app, BMSTz login, app ya mauzo Tanzania, biashara POS app, POS terminal Tanzania, multi-branch POS software, web POS system">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://bmstz.com/app/" />
+
+    <!-- OpenGraph Metadata for App Indexing & Search Previews -->
+    <meta property="og:title" content="BMSTz Web App | POS Terminal & Multi-Branch Management">
+    <meta property="og:description" content="Login and launch the BMSTz POS terminal, multi-branch dashboard, inventory stock audit, and sales management application.">
+    <meta property="og:url" content="https://bmstz.com/app/">
+    <meta property="og:site_name" content="BMSTz Business Management System">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:image" content="https://bmstz.com/bmtzofficiallogo.png">
+
+    <!-- Twitter Card Metadata -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="BMSTz Web App | POS Terminal & Business System">
+    <meta name="twitter:description" content="Access Tanzania's premier web POS terminal, multi-branch sales manager, and stock audit app.">
+    <meta name="twitter:image" content="https://bmstz.com/bmtzofficiallogo.png">
+
+    <!-- Schema.org JSON-LD Structured Data for App Indexing -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "BMSTz Web App - POS & Business Management Portal",
+      "url": "https://bmstz.com/app/",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web, Android, iOS, Windows, macOS",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "description": "BMSTz Web Application portal for POS sales terminal, multi-branch stock management, cash till reconciliation, and strategic business reporting.",
+      "author": {
+        "@type": "Organization",
+        "name": "BMSTz",
+        "url": "https://bmstz.com/"
+      },
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "TZS",
+        "lowPrice": "5000",
+        "highPrice": "255000"
+      }
+    }
+    </script>
+
+    <style>
+
+        html, body { overflow: hidden; overscroll-behavior: none; margin: 0; padding: 0; }
+
+        #initial-loader {
+            position: fixed !important;
+            inset: 0 !important;
+            z-index: 10000 !important;
+            display: flex !important;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            transition: opacity 0.5s ease;
+        }
+        .dark #initial-loader {
+            background: #0b141a;
+        }
+        #initial-loader.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .premium-spinner {
+            width: 64px;
+            height: 64px;
+            background: url('/loading.gif') no-repeat center center;
+            background-size: contain;
+            display: inline-block;
+        }
+
+        .loader-text {
+            font-family: Inter, system-ui, sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #111827;
+            letter-spacing: 0.02em;
+            margin-top: 1rem;
+        }
+        .dark .loader-text {
+            color: #f8fafc;
+        }
+
+        /* Universal Table Shrink & Touch / Mouse Drag Scrollbar Rules */
+        .overflow-x-auto {
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            touch-action: pan-x pan-y !important;
+            cursor: default !important;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(99, 102, 241, 0.5) rgba(241, 245, 249, 0.6);
+        }
+        .dark .overflow-x-auto {
+            scrollbar-color: rgba(129, 140, 248, 0.5) rgba(15, 23, 42, 0.6);
+        }
+        .overflow-x-auto::-webkit-scrollbar {
+            height: 6px !important;
+            width: 6px !important;
+        }
+        .overflow-x-auto::-webkit-scrollbar-track {
+            background: rgba(241, 245, 249, 0.8);
+            border-radius: 4px;
+        }
+        .dark .overflow-x-auto::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 4px;
+        }
+        .overflow-x-auto::-webkit-scrollbar-thumb {
+            background-color: rgba(99, 102, 241, 0.5);
+            border-radius: 9999px;
+        }
+        .dark .overflow-x-auto::-webkit-scrollbar-thumb {
+            background-color: rgba(129, 140, 248, 0.5);
+        }
+        .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(99, 102, 241, 0.8);
+        }
+
+        /* Clean Responsive Table Styling: Tight Middle Columns, Protected Outer Edges & Crisp Row Separators */
+        .overflow-x-auto table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+        }
+        .overflow-x-auto table th,
+        .overflow-x-auto table td {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+            white-space: nowrap;
+            vertical-align: middle;
+        }
+        .overflow-x-auto table thead th {
+            border-bottom: 2px solid #94a3b8;
+        }
+        .dark .overflow-x-auto table thead th {
+            border-bottom: 2px solid rgba(148, 163, 184, 0.5);
+        }
+        .overflow-x-auto table tbody td {
+            border-bottom: 1.25px solid #cbd5e1;
+        }
+        .dark .overflow-x-auto table tbody td {
+            border-bottom: 1.25px solid rgba(100, 116, 139, 0.45);
+        }
+        .overflow-x-auto table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        .overflow-x-auto table th:first-child,
+        .overflow-x-auto table td:first-child {
+            padding-left: 1.25rem !important;
+            padding-right: 0.5rem;
+        }
+        .overflow-x-auto table th:last-child,
+        .overflow-x-auto table td:last-child {
+            padding-right: 1.25rem !important;
+            padding-left: 0.5rem;
+        }
+        @media (min-width: 640px) {
+            .overflow-x-auto table th,
+            .overflow-x-auto table td {
+                padding-left: 0.65rem;
+                padding-right: 0.65rem;
+                padding-top: 0.85rem;
+                padding-bottom: 0.85rem;
+            }
+            .overflow-x-auto table th:first-child,
+            .overflow-x-auto table td:first-child {
+                padding-left: 1.5rem !important;
+                padding-right: 0.65rem;
+            }
+            .overflow-x-auto table th:last-child,
+            .overflow-x-auto table td:last-child {
+                padding-right: 1.5rem !important;
+                padding-left: 0.65rem;
+            }
+        }
+    </style>
+
+    <link rel="preconnect" href="https://ojnxraxdynbhddfviweb.supabase.co" crossorigin>
+    <link rel="dns-prefetch" href="https://ojnxraxdynbhddfviweb.supabase.co">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+
+    <script>(function(){const w=console.warn;console.warn=function(...a){if(a[0]&&typeof a[0]==='string'&&a[0].includes('cdn.tailwindcss.com'))return;w.apply(console,a);};})();</script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        if (typeof tailwind !== 'undefined' && tailwind) {
+            tailwind.config = {
+                darkMode: 'class',
+                theme: {
+                    extend: {
+                        colors: {
+                            indigo: {
+                                50: '#f4f6f8',
+                                100: '#e5eaf0',
+                                200: '#cdd7e1',
+                                300: '#a7bccc',
+                                400: '#7a9caf',
+                                500: '#5d7e96',
+                                600: '#475b6e',
+                                700: '#3a4a5a',
+                                800: '#2f3c49',
+                                900: '#27313c',
+                                950: '#171e25',
+                            }
+                        }
+                    }
+                }
+            };
+        }
+    </script>
+    <script>
+
+            (function () {
+                const theme = localStorage.getItem('bms-theme') || 'light';
+                if (theme === 'dark') document.documentElement.classList.add('dark');
+            })();
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+    <link rel="manifest" href="/manifest.json?v=2.9.32">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=2.9.32">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2.9.32">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2.9.32">
+    <link rel="icon" type="image/png" sizes="48x48" href="/icon-48x48.png?v=2.9.32">
+    <link rel="shortcut icon" href="/favicon.ico?v=2.9.32">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2.9.32">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png?v=2.9.32">
+    <link rel="apple-touch-icon" href="/bmtzofficiallogo.png?v=2.9.32">
+    <link rel="apple-touch-startup-image" href="/apple-splash-2048x2732.png?v=2.9.32" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)">
+    <link rel="apple-touch-startup-image" href="/apple-splash-1668x2388.png?v=2.9.32" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)">
+    <link rel="apple-touch-startup-image" href="/apple-splash-1536x2048.png?v=2.9.32" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)">
+    <link rel="apple-touch-startup-image" href="/apple-splash-1290x2796.png?v=2.9.32" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)">
+    <link rel="apple-touch-startup-image" href="/apple-splash-1170x2532.png?v=2.9.32" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)">
+    <link rel="apple-touch-startup-image" href="/apple-splash-1125x2436.png?v=2.9.32" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <style>
+        #initial-loader {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .dark #initial-loader {
+            background-color: #0b141a;
+        }
+        .initial-spinner {
+            width: 64px;
+            height: 64px;
+            background: url('/loading.gif') no-repeat center center;
+            background-size: contain;
+            display: inline-block;
+        }
+        .initial-loader-text {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #475B6E;
+            margin-top: 1rem;
+            letter-spacing: 0.02em;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-900">
+
+    <div id="initial-loader">
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+            <img src="/loading.gif" alt="Loading..." style="width: 72px; height: 72px; object-fit: contain; margin-bottom: 0.5rem;" />
+            <p class="initial-loader-text">Initializing BMS...</p>
+        </div>
+    </div>
+
+    <div id="loginScreen" class="fixed inset-0 w-full h-screen min-h-screen bg-gray-50 dark:bg-[#0b141a] flex flex-col items-center justify-center z-50 p-4 overflow-y-auto">
+        <canvas id="bg-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+
+        <div class="flex flex-col items-center gap-3 my-auto relative z-10 w-full max-w-[440px]">
+
+            <div class="flex items-center justify-center gap-3 w-full flex-wrap">
+                <a href="/" class="flex items-center gap-2 text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-indigo-600 transition-all bg-white/90 dark:bg-[#111b21]/90 backdrop-blur-md px-4 py-2 rounded-full border border-gray-200/60 dark:border-white/10 shadow-sm hover:shadow-md">
+                    <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                    <span>Back to Website</span>
+                </a>
+                <a href="/about" class="flex items-center gap-2 text-xs font-semibold text-gray-800 dark:text-gray-200 hover:text-indigo-600 transition-all bg-white/90 dark:bg-[#111b21]/90 backdrop-blur-md px-4 py-2 rounded-full border border-gray-200/60 dark:border-white/10 shadow-sm hover:shadow-md">
+                    <i data-lucide="info" class="w-3.5 h-3.5"></i>
+                    <span>About Platform</span>
+                </a>
+            </div>
+
+            <div class="login-glass rounded-[2rem] p-5 sm:p-7 md:p-8 w-full modal-enter relative max-h-[95vh] overflow-y-auto scroller-custom shadow-2xl">
+            <div id="loginLogoContainer" class="text-center mb-3">
+                <div
+                    class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mx-auto shadow-lg shadow-indigo-500/30 overflow-hidden bg-white p-1">
+                    <img src="/bmtzofficiallogo.png" alt="BMSTz Logo" class="w-full h-full object-contain">
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <div class="text-center mb-2">
+                    <p class="login-subtitle text-gray-500 text-sm font-medium">Welcome back, please sign in</p>
+                </div>
+
+                <div
+                    class="login-role-toggle relative bg-gray-100/80 p-1.5 rounded-xl flex items-center mb-4 border border-gray-200/50">
+                    <div id="roleSlider"
+                        class="absolute left-1.5 top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-white rounded-lg role-slider-active transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]">
+                    </div>
+
+                    <button type="button" onclick="setLoginRole('owner')"
+                        class="flex-1 relative z-10 py-2.5 text-[0.9rem] font-semibold text-center rounded-lg transition-colors duration-200 text-indigo-600"
+                        id="btn-owner">
+                        Business Admin
+                    </button>
+
+                    <button type="button" onclick="setLoginRole('branch')"
+                        class="flex-1 relative z-10 py-2.5 text-[0.9rem] font-medium text-center rounded-lg transition-colors duration-200 text-gray-500"
+                        id="btn-branch">
+                        Branch Manager
+                    </button>
+
+                    <input type="hidden" id="roleSelect" value="owner">
+                </div>
+
+                <div id="ownerFields">
+
+                    <form id="loginForm" class="space-y-3" onsubmit="event.preventDefault(); login();">
+                        <div>
+                            <label for="ownerEmail"
+                                class="login-label block text-xs font-semibold text-gray-700 mb-1">Email
+                                Address</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i data-lucide="mail" class="w-5 h-5 text-gray-400"></i>
+                                </div>
+                                <input type="email" id="ownerEmail" placeholder="owner@business.com" autocomplete="email"
+                                    class="form-input auth-input !pl-10" style="padding-left: 2.85rem !important;">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="ownerPassword"
+                                class="login-label block text-xs font-semibold text-gray-700 mb-1">Password</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i data-lucide="lock" class="w-5 h-5 text-gray-400"></i>
+                                </div>
+                                <input type="password" id="ownerPassword" placeholder="Enter your password" autocomplete="current-password"
+                                    class="form-input auth-input !pl-10 !pr-10" style="padding-left: 2.85rem !important; padding-right: 2.85rem !important;">
+                                <button type="button" onclick="togglePasswordVisibility('ownerPassword', this)"
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 focus:outline-none">
+                                    <i data-lucide="eye" class="w-4 h-4 text-gray-400"></i>
+                                </button>
+                            </div>
+                            <div class="text-right mt-1">
+                                <button type="button" onclick="toggleResetPassword()"
+                                    class="text-xs text-indigo-600 hover:text-indigo-800">
+                                    Forgot Password?
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="adminKeywordContainer" class="hidden">
+                            <label for="adminKeyword"
+                                class="login-label block text-xs font-semibold text-gray-700 mb-1">Keyword Pass</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i data-lucide="key" class="w-5 h-5 text-gray-400"></i>
+                                </div>
+                                <input type="text" id="adminKeyword" placeholder="Enter keyword" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
+                                    class="form-input auth-input !pl-10">
+                            </div>
+                        </div>
+                    </form>
+
+                    <form id="registerForm" class="hidden space-y-2.5" onsubmit="event.preventDefault(); register();">
+                        <div>
+                            <label for="regBusinessName"
+                                class="login-label block text-xs font-semibold text-gray-700 mb-1">Business
+                                Name</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i data-lucide="building" class="w-4 h-4 text-gray-400"></i>
+                                </div>
+                                <input type="text" id="regBusinessName" placeholder="My Business"
+                                    class="form-input auth-input !pl-9 !py-2.5 text-sm">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="regPhone"
+                                class="login-label block text-xs font-semibold text-gray-700 mb-1">Mobile
+                                Number</label>
+                            <div class="flex gap-2 items-center w-full">
+                                <div class="relative premium-dropdown-container shrink-0" id="container-regCountryCode" style="width: 105px !important; min-width: 105px !important; flex: 0 0 105px !important;">
+                                    <button type="button"
+                                            class="form-input auth-input flex justify-between items-center !px-2.5 !py-2.5 font-bold text-xs bg-white dark:bg-[#111b21] border border-gray-200 dark:border-white/10 rounded-xl text-left"
+                                            style="width: 105px !important;"
+                                            onclick="window.togglePremiumDropdown('regCountryCode')">
+                                        <span id="label-regCountryCode" class="truncate">🇹ℤ +255</span>
+                                        <input type="hidden" id="regCountryCode" value="+255">
+                                        <div class="pointer-events-none text-gray-400 shrink-0">
+                                            <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                                        </div>
+                                    </button>
+                                    <div id="list-regCountryCode" class="dropdown-premium-picker-modal fixed inset-0 z-[9999] hidden flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs fade-in">
+                                        <div class="absolute inset-0" onclick="window.closePremiumDropdown('regCountryCode')"></div>
+                                        <div class="relative bg-white dark:bg-[#17212b] rounded-2xl shadow-2xl border border-gray-200 dark:border-white/10 w-[84%] max-w-[280px] overflow-hidden flex flex-col z-10 animate-in zoom-in-95 duration-150">
+                                            <div class="p-3 bg-gray-50 dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
+                                                <span class="text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide">Select Country Code</span>
+                                                <button type="button" onclick="window.closePremiumDropdown('regCountryCode')" class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 rounded-lg">
+                                                    <i data-lucide="x" class="w-4 h-4"></i>
+                                                </button>
+                                            </div>
+                                            <div class="max-h-[210px] overflow-y-auto scroller-custom p-1">
+                                                <div class="dropdown-premium-item active" onclick="window.selectPremiumOption('regCountryCode', '+255', '🇹ℤ +255')" data-value="+255">
+                                                    <span>🇹ℤ +255 (Tanzania)</span>
+                                                </div>
+                                                <div class="dropdown-premium-item" onclick="window.selectPremiumOption('regCountryCode', '+254', '🇰🇪 +254')" data-value="+254">
+                                                    <span>🇰🇪 +254 (Kenya)</span>
+                                                </div>
+                                                <div class="dropdown-premium-item" onclick="window.selectPremiumOption('regCountryCode', '+256', '🇺🇬 +256')" data-value="+256">
+                                                    <span>🇺🇬 +256 (Uganda)</span>
+                                                </div>
+                                                <div class="dropdown-premium-item" onclick="window.selectPremiumOption('regCountryCode', '+250', '🇷🇼 +250')" data-value="+250">
+                                                    <span>🇷🇼 +250 (Rwanda)</span>
+                                                </div>
+                                                <div class="dropdown-premium-item" onclick="window.selectPremiumOption('regCountryCode', '+1', '🇺🇸 +1')" data-value="+1">
+                                                    <span>🇺🇸 +1 (USA)</span>
+                                                </div>
+                                                <div class="dropdown-premium-item" onclick="window.selectPremiumOption('regCountryCode', '+44', '🇬🇧 +44')" data-value="+44">
+                                                    <span>🇬🇧 +44 (UK)</span>
+                                                </div>
+                                                <div class="dropdown-premium-item" onclick="window.selectPremiumOption('regCountryCode', '', 'Other')" data-value="">
+                                                    <span>🌐 Other</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="relative flex-1 min-w-0" style="flex: 1 1 0% !important;">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+                                        <i data-lucide="phone" class="w-4 h-4 text-gray-400"></i>
+                                    </div>
+                                    <input type="tel" id="regPhone" placeholder="712 345 678"
+                                        class="form-input auth-input !w-full !pl-9 !py-2.5 text-sm" style="width: 100% !important;">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="regEmail"
+                                class="login-label block text-xs font-semibold text-gray-700 mb-1">Email
+                                Address</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i data-lucide="mail" class="w-4 h-4 text-gray-400"></i>
+                                </div>
+                                <input type="email" id="regEmail" placeholder="owner@business.com" autocomplete="email"
+                                    class="form-input auth-input !pl-9 !py-2.5 text-sm">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="regPassword"
+                                class="login-label block text-xs font-semibold text-gray-700 mb-1">Password</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i data-lucide="lock" class="w-4 h-4 text-gray-400"></i>
+                                </div>
+                                <input type="password" id="regPassword" placeholder="Create a password" autocomplete="new-password"
+                                    class="form-input auth-input !pl-9 !pr-9 !py-2.5 text-sm">
+                                <button type="button" onclick="togglePasswordVisibility('regPassword', this)"
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 focus:outline-none">
+                                    <i data-lucide="eye" class="w-4 h-4 text-gray-400"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="regPlanOption" class="login-label block text-xs font-semibold text-gray-700 mb-1">Subscription Preference</label>
+                            <div class="relative premium-dropdown-container w-full" id="container-regPlanOption">
+                                <button type="button"
+                                        class="form-input auth-input flex justify-between items-center !px-3.5 !py-2.5 font-bold text-xs bg-white dark:bg-[#111b21] border border-gray-200 dark:border-white/10 rounded-xl w-full text-left"
+                                        onclick="window.togglePremiumDropdown('regPlanOption')">
+                                    <span id="label-regPlanOption" class="truncate pr-4">✨ 7-Day Free Trial (Starter features)</span>
+                                    <input type="hidden" id="regPlanOption" value="free_trial">
+                                    <div class="pointer-events-none text-gray-400 shrink-0">
+                                        <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                                    </div>
+                                </button>
+                                <div id="list-regPlanOption" class="dropdown-premium-list absolute z-[110] w-full bottom-full mb-1.5 open-up hidden fade-in shadow-2xl overflow-hidden flex flex-col bg-white dark:bg-[#17212b] border border-gray-200 dark:border-white/10 rounded-xl p-1 left-0">
+                                    <div class="max-h-[220px] overflow-y-auto scroller-custom">
+                                        <div class="dropdown-premium-item active" onclick="window.selectPremiumOption('regPlanOption', 'free_trial', '✨ 7-Day Free Trial (Starter features)')" data-value="free_trial">
+                                            <span>✨ 7-Day Free Trial (Starter features)</span>
+                                        </div>
+                                        <div class="dropdown-premium-item" onclick="window.selectPremiumOption('regPlanOption', 'skip_trial', '💳 Skip Trial & Choose Paid Plan Immediately')" data-value="skip_trial">
+                                            <span>💳 Skip Trial & Choose Paid Plan Immediately</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center pt-1">
+                            <button type="button" onclick="toggleRegistration()"
+                                class="text-xs text-indigo-600 hover:text-indigo-800 font-semibold">
+                                Back to Login
+                            </button>
+                        </div>
+                        <button type="button" onclick="register()"
+                            class="w-full btn-primary justify-center py-2.5 text-sm rounded-xl mt-2 font-bold">
+                            Create Account
+                        </button>
+                    </form>
+
+                    <form id="resetPasswordForm" class="hidden space-y-3" onsubmit="event.preventDefault(); handlePasswordReset();">
+                        <div class="text-center mb-4">
+                            <h3 class="login-label text-lg font-bold text-gray-900">Reset Password</h3>
+                            <p class="login-subtitle text-sm text-gray-500">Enter your email to receive a reset link.
+                            </p>
+                        </div>
+                        <div>
+                            <label for="resetEmail"
+                                class="login-label block text-sm font-medium text-gray-700 mb-1.5">Email
+                                Address</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i data-lucide="mail" class="w-5 h-5 text-gray-400"></i>
+                                </div>
+                                <input type="email" id="resetEmail" placeholder="owner@business.com" autocomplete="email"
+                                    class="form-input auth-input !pl-10">
+                            </div>
+                        </div>
+                        <button type="button" onclick="handlePasswordReset()"
+                            class="w-full btn-primary justify-center py-2.5 text-base rounded-xl mt-2">
+                            Send Reset Link
+                        </button>
+                        <div class="text-center pt-2">
+                            <button type="button" onclick="toggleResetPassword()"
+                                class="text-sm text-gray-500 hover:text-gray-700 font-medium">
+                                Back to Login
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+            <div id="branchPinReset" class="hidden space-y-3">
+                <div class="text-center mb-4">
+                    <h3 class="login-label text-lg font-bold text-gray-900">Request PIN Reset</h3>
+                    <p class="login-subtitle text-sm text-gray-500">Ask the admin to reset your PIN.</p>
+                </div>
+                <div>
+                    <label for="reqOwnerEmail" class="login-label block text-sm font-medium text-gray-700 mb-1.5">Admin
+                        Email</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i data-lucide="mail" class="w-5 h-5 text-gray-400"></i>
+                        </div>
+                        <input type="email" id="reqOwnerEmail" placeholder="owner@business.com"
+                            class="form-input auth-input !pl-10">
+                    </div>
+                </div>
+                <div>
+                    <label for="reqBranchName" class="login-label block text-sm font-medium text-gray-700 mb-1.5">Branch
+                        Name</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i data-lucide="building-2" class="w-5 h-5 text-gray-400"></i>
+                        </div>
+                        <input type="text" id="reqBranchName" placeholder="Main Branch"
+                            class="form-input auth-input !pl-10">
+                    </div>
+                </div>
+                <button type="button" onclick="requestPinReset()"
+                    class="w-full btn-primary justify-center py-2.5 text-base rounded-xl mt-2">
+                    Send Request
+                </button>
+                <div class="text-center pt-2">
+                    <button type="button" onclick="toggleBranchPinReset()"
+                        class="text-sm text-gray-500 hover:text-gray-700 font-medium">
+                        Back to Login
+                    </button>
+                </div>
+            </div>
+
+            <form id="branchSelector" class="hidden space-y-3" onsubmit="event.preventDefault(); login();">
+                <div>
+                    <label for="branchEmailInput"
+                        class="login-label block text-sm font-medium text-gray-700 mb-1.5">Manager
+                        Email</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i data-lucide="mail" class="w-5 h-5 text-gray-400"></i>
+                        </div>
+                        <input type="email" id="branchEmailInput" placeholder="manager@branch.com" autocomplete="email"
+                            class="form-input auth-input !pl-10" style="padding-left: 2.85rem !important;">
+                    </div>
+                </div>
+                <div>
+                    <label for="branchPasswordInput"
+                        class="login-label block text-sm font-medium text-gray-700 mb-1.5">Password</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i data-lucide="lock" class="w-5 h-5 text-gray-400"></i>
+                        </div>
+                        <input type="password" id="branchPasswordInput" placeholder="Enter password" autocomplete="current-password"
+                            class="form-input auth-input !pl-10 !pr-10" style="padding-left: 2.85rem !important; padding-right: 2.85rem !important;">
+                        <button type="button" onclick="togglePasswordVisibility('branchPasswordInput', this)"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 focus:outline-none z-10">
+                            <i data-lucide="eye" class="w-4 h-4 text-gray-400"></i>
+                        </button>
+                    </div>
+                    <div class="text-right mt-1">
+                        <button type="button" onclick="toggleBranchPinReset()" class="text-xs text-indigo-600 hover:text-indigo-800">
+                            Forgot Password?
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <button id="mainLoginBtn" onclick="login()"
+                class="w-full btn-primary justify-center py-3 text-base rounded-xl mt-4">
+                <i data-lucide="log-in" class="w-5 h-5"></i>
+                Access Dashboard
+            </button>
+            <div id="regToggle" class="text-center pt-4">
+                <button onclick="toggleRegistration()"
+                    class="text-sm text-indigo-600 hover:text-indigo-800 font-medium transition-colors">
+                    Create new account
+                </button>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div id="app" class="hidden flex flex-col h-dvh overflow-hidden">
+
+        <div id="system-banner-container" class="hidden flex flex-col shrink-0"></div>
+
+        <header class="bg-white dark:bg-gray-900 sticky top-0 z-40 shrink-0 w-full pt-[max(0px,env(safe-area-inset-top))] border-b border-gray-200/80 dark:border-gray-800 shadow-none">
+            <div class="flex items-center justify-between px-4 md:px-6 py-5 md:py-4">
+                <div class="flex items-center gap-3">
+
+                    <button onclick="toggleSidebar()"
+                        class="md:hidden p-2 -ml-2 text-gray-500 hover:bg-gray-100 rounded-lg">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+
+                    <div class="flex items-center gap-2">
+                        <div id="headerBrandLogoWrap" class="hidden items-center">
+                            <img id="headerBrandLogo" src="" alt="Brand Logo" class="h-6 max-w-[100px] object-contain rounded">
+                        </div>
+                        <p id="userRole"
+                            class="text-[10px] md:text-xs font-black text-indigo-700 bg-indigo-50 dark:bg-indigo-950/40 dark:text-indigo-300 px-2.5 py-1 rounded-md border border-indigo-100 dark:border-indigo-900/50 uppercase tracking-wider shadow-none leading-tight">
+                            BSO</p>
+                        <span id="subscriptionTag" class="hidden"></span>
+                    </div>
+                </div>
+
+                <div id="navbar-banner-container" class="hidden md:flex flex-1 mx-6 overflow-hidden"></div>
+
+                <div class="flex items-center gap-3">
+                    <!-- Desktop Global "Go To" Navigator Button -->
+                    <button type="button" onclick="window.openGlobalNavigator?.()"
+                        class="hidden md:flex items-center justify-between gap-3 px-3 py-1.5 bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-700 rounded-xl text-xs text-gray-500 dark:text-gray-400 font-medium cursor-pointer w-48 lg:w-64 shadow-none">
+                        <span class="flex items-center gap-2 truncate">
+                            <i data-lucide="search" class="w-3.5 h-3.5 text-gray-400 shrink-0"></i>
+                            <span class="truncate text-gray-600 dark:text-gray-300">Go to page or action...</span>
+                        </span>
+                        <kbd class="font-mono text-[10px] font-bold px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded text-gray-500 dark:text-gray-400 shrink-0 shadow-none">/</kbd>
+                    </button>
+
+                    <!-- Network & Sync Health Pill -->
+                    <div id="globalNetworkSyncPill" class="hidden"></div>
+
+                    <div
+                        class="flex items-center bg-white dark:bg-gray-800 border border-gray-200/80 dark:border-gray-700 rounded-xl p-0.5 shadow-xs theme-control">
+                        <!-- Language Toggle Button -->
+                        <button onclick="window.toggleAppLanguage()" id="langToggleBtn" title="Switch Language / Badili Lugha"
+                            class="px-2 py-1 text-xs font-black text-[#475B6E] dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1">
+                            <i data-lucide="languages" class="w-4 h-4 text-[#475B6E] dark:text-gray-200"></i>
+                            <span id="langToggleLabel" class="uppercase font-mono text-[11px]">EN</span>
+                        </button>
+
+                        <div class="w-px h-4 bg-gray-100 mx-1"></div>
+
+                        <button onclick="toggleTheme()" id="themeToggle" title="Toggle Theme"
+                            class="p-2 text-gray-500 hover:bg-gray-50 rounded-lg transition-colors group">
+                            <i data-lucide="moon" class="w-5 h-5 dark:hidden"></i>
+                            <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                        </button>
+
+                        <div class="w-px h-4 bg-gray-100 mx-1"></div>
+
+                        <!-- Mobile-only Refresh Button -->
+                        <button type="button" onclick="window.triggerAppRefresh(this)" title="Refresh App / Badili Masasisho"
+                            class="md:hidden p-2 text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors group active:scale-95">
+                            <i data-lucide="refresh-cw" class="w-5 h-5 group-hover:text-indigo-600 transition-transform"></i>
+                        </button>
+
+                        <div class="md:hidden w-px h-4 bg-gray-100 dark:bg-gray-800 mx-1"></div>
+
+                        <button onclick="triggerPwaInstall()" title="Install BMSTz App"
+                            class="pwa-install-btn hidden p-1.5 text-[#475B6E] bg-[#475B6E]/10 hover:bg-[#475B6E]/20 dark:bg-[#475B6E]/20 dark:text-gray-200 rounded-lg transition-colors flex items-center gap-1.5 font-bold text-xs">
+                            <i data-lucide="download" class="w-4 h-4 text-[#475B6E] dark:text-gray-200"></i>
+                            <span class="hidden sm:inline">Install App</span>
+                        </button>
+
+                        <button onclick="showNotifications()"
+                            class="relative p-2 text-gray-500 hover:bg-gray-50 rounded-lg transition-colors group">
+                            <i data-lucide="bell" class="w-5 h-5 group-hover:text-indigo-600"></i>
+                            <span id="notifBadge"
+                                class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white hidden"></span>
+                        </button>
+
+                        <div class="w-px h-4 bg-gray-100 mx-1"></div>
+
+                        <button onclick="window.confirmSignOut ? window.confirmSignOut() : logout()" title="Sign Out"
+                            class="p-2 text-gray-500 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors group cursor-pointer">
+                            <i data-lucide="log-out" class="w-5 h-5" stroke-width="2.5"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex flex-1 min-h-0 relative bg-white overflow-hidden">
+
+            <div class="absolute top-1/4 left-0 w-72 h-72 bg-indigo-600/5 rounded-full blur-3xl opacity-60 pointer-events-none z-0" style="transform:translate3d(0,0,0);"></div>
+            <div class="absolute top-1/3 right-0 w-72 h-72 bg-indigo-200/30 rounded-full blur-3xl opacity-50 pointer-events-none z-0" style="transform:translate3d(0,0,0);"></div>
+
+            <div id="sidebarOverlay" onclick="toggleSidebar()"
+                class="absolute inset-0 bg-black/50 z-30 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
+
+            <aside id="mainSidebar" class="w-[240px] md:w-64 bg-white dark:bg-gray-900 flex flex-col flex-shrink-0 min-h-0 overflow-hidden
+                          absolute md:relative inset-y-0 left-0 md:top-auto md:bottom-auto md:left-auto z-40 md:z-10 transition-all duration-300 transform
+                          -translate-x-full md:translate-x-0 shadow-[4px_0_24px_rgba(0,0,0,0.08)] md:shadow-none
+                          h-full border-r border-slate-300 dark:border-slate-700">
+                <div id="sidebarBrandHeader" class="hidden px-4 py-3 border-b border-slate-200 dark:border-slate-800 items-center gap-2.5 bg-gray-50/50 dark:bg-gray-800/30">
+                    <img id="sidebarBrandLogo" src="" alt="Brand Logo" class="h-6 max-w-[120px] object-contain">
+                    <span id="sidebarBrandName" class="text-xs font-black text-gray-800 dark:text-gray-200 truncate"></span>
+                </div>
+                <nav class="flex-1 min-h-0 p-0 overflow-y-auto" id="sidebarNav">
+
+                    <div id="sysadminNav" class="hidden">
+                        <button onclick="switchView('sysadmin-dashboard',this)"
+                            class="sidebar-item active w-full text-left font-medium">
+                            <i data-lucide="layout-dashboard" class="w-4 h-4 flex-shrink-0"></i> Dashboard
+                        </button>
+                        <button onclick="switchView('sysadmin-controls',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="sliders" class="w-4 h-4 flex-shrink-0"></i> Site Controls
+                        </button>
+                        <button onclick="switchView('sysadmin-users',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="users" class="w-4 h-4 flex-shrink-0"></i> User Maintenance
+                        </button>
+                        <button onclick="switchView('sysadmin-tickets',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="help-circle" class="w-4 h-4 flex-shrink-0"></i> Support Tickets
+                        </button>
+                        <button onclick="switchView('sysadmin-communications',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="radio" class="w-4 h-4 flex-shrink-0"></i> Communications Hub
+                        </button>
+                        <button onclick="switchView('sysadmin-surveys',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="clipboard-check" class="w-4 h-4 flex-shrink-0"></i> Feedback and Survey
+                        </button>
+                        <button onclick="switchView('sysadmin-security',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="shield-alert" class="w-4 h-4 flex-shrink-0"></i> Security & Lockout
+                        </button>
+                        <button onclick="switchView('sysadmin-revenue',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="trending-up" class="w-4 h-4 flex-shrink-0"></i> Revenue Analytics
+                        </button>
+                        <button onclick="switchView('sysadmin-health',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="activity" class="w-4 h-4 flex-shrink-0"></i> Tenant Health
+                        </button>
+                        <button onclick="switchView('sysadmin-flags',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="toggle-right" class="w-4 h-4 flex-shrink-0"></i> Feature Flags
+                        </button>
+                        <button onclick="switchView('sysadmin-vault',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="database" class="w-4 h-4 flex-shrink-0"></i> Compliance Vault
+                        </button>
+                        <button onclick="switchView('sysadmin-pricing',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="credit-card" class="w-4 h-4 flex-shrink-0"></i> Pricing & Plans
+                        </button>
+                        <button onclick="switchView('sysadmin-audit',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="scroll-text" class="w-4 h-4 flex-shrink-0"></i> Audit Logs
+                        </button>
+                    </div>
+
+                    <div id="ownerNav" class="hidden">
+                        <button onclick="switchView('overview',this)"
+                            class="sidebar-item active w-full text-left font-medium">
+                            <i data-lucide="layout-dashboard" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_overview">Overview</span>
+                        </button>
+                        <button onclick="switchView('branches',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="git-branch" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_branches">Branches</span>
+                        </button>
+                        <button onclick="switchView('tasks',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="check-square" class="w-4 h-4 flex-shrink-0"></i>
+                            <span class="flex-1" data-i18n="nav_tasks">Tasks & Objectives</span>
+                            <span id="ownerTasksBadge"
+                                class="hidden bg-indigo-600 text-white text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full">0</span>
+                        </button>
+                        <button onclick="switchView('analytics',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="bar-chart-3" class="w-4 h-4 flex-shrink-0"></i>
+                            <span class="flex-1" data-i18n="nav_analytics">Analytics</span>
+                            <span id="navAnalyticsAiBadge" class="hidden ml-auto inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#475B6E]/10 dark:bg-[#475B6E]/30 text-[#475B6E] dark:text-[#a0b4c4] text-[10px] font-black tracking-tight border border-[#475B6E]/20">
+                                <i data-lucide="sparkles" class="w-2.5 h-2.5 text-[#475B6E] dark:text-[#a0b4c4]"></i> AI
+                            </span>
+                        </button>
+                        <button onclick="switchView('central_inventory',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="package-search" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_central_inventory">Central Inventory</span>
+                        </button>
+                        <button onclick="switchView('financial_reports',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="file-bar-chart" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_financial_reports">Financial Reports</span>
+                        </button>
+                        <button onclick="switchView('capital',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="wallet" class="w-4 h-4 flex-shrink-0"></i> <span>Capital & Balance Sheet</span>
+                        </button>
+                        <button onclick="switchView('assets',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="box" class="w-4 h-4 flex-shrink-0"></i> <span>Fixed Assets & Maintenance</span>
+                        </button>
+                        <button onclick="switchView('business_loans',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="landmark" class="w-4 h-4 flex-shrink-0"></i> <span>Liabilities & Loans</span>
+                        </button>
+                        <button onclick="switchView('requests',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="shield-check" class="w-4 h-4 flex-shrink-0"></i>
+                            <span class="flex-1" data-i18n="nav_approval_queue">Approval Queue</span>
+                            <span id="approvalBadge"
+                                class="hidden bg-indigo-600 text-white text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full">0</span>
+                        </button>
+                        <button onclick="switchView('security',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="shield" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_security">Security</span>
+                        </button>
+                        <button onclick="switchView('feedback',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="help-circle" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_support">Help & Support</span>
+                        </button>
+                        <button onclick="switchView('chat',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="message-square" class="w-4 h-4 flex-shrink-0"></i>
+                            <span class="flex-1" data-i18n="nav_messages">Messages</span>
+                            <span
+                                class="chat-unread-badge hidden bg-red-500 text-white text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full">0</span>
+                        </button>
+                        <button onclick="window.openBackupModal ? window.openBackupModal() : switchView('backup',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="database-backup" class="w-4 h-4 flex-shrink-0 text-indigo-500"></i>
+                            <span class="flex-1" data-i18n="nav_backup_sync">Backup & Sync</span>
+                            <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-black bg-indigo-50 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-800/60">JSON</span>
+                        </button>
+
+                        <div class="py-1.5 px-4 bg-gray-50/70 dark:bg-gray-800/40 border-b border-t border-gray-100 dark:border-gray-800">
+                            <p class="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest" data-i18n="section_inventory">Monitor</p>
+                        </div>
+                        <button onclick="switchView('staff',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="user-check" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_staff">Staff & HR</span>
+                        </button>
+                        <button onclick="switchView('suppliers',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="truck" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_suppliers">Suppliers & POs</span>
+                        </button>
+                        <button onclick="switchView('quotations',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="file-signature" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_quotations">Quotations</span>
+                        </button>
+                        <button onclick="switchView('stock_movements',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="history" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_stock_ledger">Stock Ledger & Audit</span>
+                        </button>
+
+                        <div class="py-1.5 px-4 bg-gray-50/70 dark:bg-gray-800/40 border-b border-t border-gray-100 dark:border-gray-800">
+                            <p class="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest" data-i18n="section_finance">Finance</p>
+                        </div>
+                        <button onclick="switchView('payroll',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="wallet" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_payroll">Payroll</span>
+                        </button>
+                        <button onclick="switchView('promotions',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="tag" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_promotions">Promotions</span>
+                        </button>
+
+                        <div class="py-1.5 px-4 bg-gray-50/70 dark:bg-gray-800/40 border-b border-t border-gray-100 dark:border-gray-800">
+                            <p class="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest" data-i18n="section_operations">Operations</p>
+                        </div>
+                        <button onclick="switchView('goals',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="target" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_goals">Goals & KPIs</span>
+                        </button>
+                        <button onclick="switchView('shifts',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="calendar-days" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_shifts">Shift Schedule</span>
+                        </button>
+                        <button onclick="switchView('announcements',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="megaphone" class="w-4 h-4 flex-shrink-0"></i> Announcements
+                        </button>
+                        <button onclick="switchView('audit',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="scroll-text" class="w-4 h-4 flex-shrink-0"></i> Audit Logs
+                        </button>
+                    </div>
+
+                    <div id="branchNav" class="hidden">
+                        <button onclick="switchView('dashboard',this)"
+                            class="sidebar-item active w-full text-left font-medium">
+                            <i data-lucide="home" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_dashboard">Dashboard</span>
+                        </button>
+                        <button onclick="switchView('sales',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="shopping-cart" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_sales">Sales</span>
+                        </button>
+                        <button onclick="switchView('expenses',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="credit-card" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_expenses">Expenses</span>
+                        </button>
+                        <button onclick="switchView('inventory',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="package" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_inventory">Inventory</span>
+                        </button>
+                        <button onclick="switchView('customers',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="users" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_customers">Customers</span>
+                        </button>
+                        <button onclick="switchView('staff',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="user-check" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_staff">Staff & HR</span>
+                        </button>
+                        <button onclick="switchView('suppliers',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="truck" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_suppliers">Suppliers & POs</span>
+                        </button>
+                        <button onclick="switchView('quotations',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="file-signature" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_quotations">Quotations</span>
+                        </button>
+                        <button onclick="switchView('invoices',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="file-text" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_invoices">Invoices</span>
+                        </button>
+                        <button onclick="switchView('tasks',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="list-todo" class="w-4 h-4 flex-shrink-0"></i>
+                            <span class="flex-1" data-i18n="nav_my_tasks">My Tasks</span>
+                            <span id="branchTasksBadge"
+                                class="hidden bg-indigo-600 text-white text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full">0</span>
+                        </button>
+                        <button onclick="switchView('reports',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="file-text" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_reports">Reports</span>
+                        </button>
+                        <button onclick="switchView('requests',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="send" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_my_requests">My Requests</span>
+                        </button>
+                        <button onclick="switchView('chat',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="message-square" class="w-4 h-4 flex-shrink-0"></i>
+                            <span class="flex-1" data-i18n="nav_messages">Messages</span>
+                            <span
+                                class="chat-unread-badge hidden bg-red-500 text-white text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full">0</span>
+                        </button>
+                        <button onclick="window.openBackupModal ? window.openBackupModal() : switchView('backup',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="database-backup" class="w-4 h-4 flex-shrink-0 text-indigo-500"></i>
+                            <span class="flex-1" data-i18n="nav_backup_sync">Backup & Sync</span>
+                            <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-black bg-indigo-50 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-800/60">JSON</span>
+                        </button>
+                        <div class="py-1.5 px-4 bg-gray-50/70 dark:bg-gray-800/40 border-b border-t border-gray-100 dark:border-gray-800">
+                            <p class="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest" data-i18n="section_more">More</p>
+                        </div>
+                        <button onclick="switchView('notes',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="edit-3" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_quick_notes">Notes</span>
+                        </button>
+                        <button onclick="switchView('loans',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="banknote" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_loans">Loans & Income</span>
+                        </button>
+                        <button onclick="switchView('feedback',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="help-circle" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_support">Help & Feedback</span>
+                        </button>
+
+                        <div class="py-1.5 px-4 bg-gray-50/70 dark:bg-gray-800/40 border-b border-t border-gray-100 dark:border-gray-800">
+                            <p class="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest" data-i18n="section_operations">Operations</p>
+                        </div>
+                        <button onclick="switchView('attendance',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="user-check" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_attendance">Attendance</span>
+                        </button>
+                        <button onclick="switchView('cash_drawer',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="landmark" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_cash_drawer">Cash Drawer</span>
+                        </button>
+                        <button onclick="switchView('loyalty',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="star" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_loyalty">Customer Loyalty</span>
+                        </button>
+                        <button onclick="switchView('stock_transfers',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="arrow-right-left" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_stock_transfers">Stock Transfers</span>
+                        </button>
+                        <button onclick="switchView('returns',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="package-open" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_returns">Product Returns</span>
+                        </button>
+                        <button onclick="switchView('shift_summary',this)"
+                            class="sidebar-item w-full text-left font-medium">
+                            <i data-lucide="clipboard-list" class="w-4 h-4 flex-shrink-0"></i> <span data-i18n="nav_shift_summary">Shift Summary</span>
+                        </button>
+                    </div>
+                </nav>
+
+                <div class="p-3 border-t border-slate-200 dark:border-slate-700 block md:block">
+                    <button onclick="triggerPwaInstall()" class="pwa-install-btn hidden w-full flex items-center justify-center gap-2 px-3 py-2 mb-2.5 rounded-xl bg-[#475B6E] hover:bg-[#3b4c5c] text-white font-bold text-xs shadow-md transition-all">
+                        <i data-lucide="download" class="w-4 h-4"></i> Install BMSTz App
+                    </button>
+                    <button onclick="switchView('settings')"
+                        class="w-full flex items-center gap-3 px-3 py-2 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors text-left group">
+                        <div id="sidebarAvatarWrap"
+                            class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0 group-hover:bg-indigo-200 transition-colors overflow-hidden">
+                            <i data-lucide="user" class="w-4 h-4 text-indigo-600" id="sidebarAvatarIcon"></i>
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <p id="currentUser" class="text-sm font-semibold text-gray-900 truncate">Admin</p>
+                            <p id="currentBranch" class="text-xs text-gray-400 truncate">Manage Account</p>
+                        </div>
+                    </button>
+                </div>
+            </aside>
+
+            <div
+                class="fixed inset-0 pointer-events-none z-0 flex items-center justify-center opacity-[0.04] overflow-hidden">
+                <img src="bg_logo.png" alt=""
+                    class="w-[80vw] h-[80vh] max-w-[800px] max-h-[800px] object-contain object-center">
+            </div>
+
+            <div class="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
+                <!-- PWA Install Banner -->
+                <div id="pwaInstallBanner" class="hidden relative z-20 bg-[#475B6E] text-white px-4 py-3 shadow-md transition-all flex items-center justify-between gap-3 flex-wrap border-b border-[#3b4c5c]">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-9 h-9 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center flex-shrink-0 border border-white/20">
+                            <i data-lucide="smartphone" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <p data-i18n="pwa_title" class="text-xs sm:text-sm font-bold tracking-tight text-white">Install BMSTz Desktop & Mobile App</p>
+                            <p data-i18n="pwa_desc" class="text-[11px] text-indigo-100/90 truncate">Fast access, offline capabilities, and instant management directly from your home screen.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 flex-shrink-0 ml-auto sm:ml-0">
+                        <button onclick="dismissPwaInstallPrompt()" data-i18n="later" class="px-3 py-1.5 text-xs font-semibold text-indigo-100 hover:text-white hover:bg-white/10 rounded-lg transition-all">
+                            Later
+                        </button>
+                        <button onclick="triggerPwaInstall()" class="px-4 py-1.5 text-xs font-bold bg-white text-indigo-700 hover:bg-indigo-50 shadow-sm rounded-lg transition-all flex items-center gap-1.5">
+                            <i data-lucide="download" class="w-3.5 h-3.5"></i> <span data-i18n="install_app">Install App</span>
+                        </button>
+                    </div>
+                </div>
+
+                <main class="flex-1 overflow-y-auto bg-transparent p-3.5 sm:p-5 pb-20 sm:pb-24 relative z-10" id="mainContent" style="-webkit-overflow-scrolling:touch;scroll-behavior:smooth;">
+
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalOverlay"
+        class="hidden fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div id="modalContent"
+            class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl max-w-md w-full modal-enter flex flex-col overflow-hidden relative"
+            style="max-height: min(88vh, 88dvh); height: auto;">
+
+        </div>
+    </div>
+
+    <!-- Global Floating Table Scroll Control Dock on Main Screen -->
+    <div id="globalTableScrollDock" style="display: none;" class="hidden fixed left-1/2 -translate-x-1/2 z-[40] w-auto max-w-[calc(100vw-2rem)] items-center justify-center gap-2 sm:gap-3 bg-white/95 dark:bg-[#111b21]/95 text-gray-800 dark:text-gray-200 backdrop-blur-md px-3 sm:px-4 py-1.5 rounded-full border border-gray-200/80 dark:border-white/10 shadow-xl select-none transition-all duration-300">
+        <button type="button" onclick="window.scrollActiveTable(-1)" class="flex items-center gap-1.5 px-3 py-1 bg-gray-100 dark:bg-gray-800/80 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-indigo-950/60 active:scale-95 text-gray-700 dark:text-gray-200 font-bold text-xs rounded-full border border-gray-200/60 dark:border-gray-700/60 transition-all cursor-pointer whitespace-nowrap shrink-0">
+            <i data-lucide="chevrons-left" class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400"></i>
+            <span class="text-[11px]">Scroll to Start</span>
+        </button>
+        
+        <div class="hidden xs:flex items-center gap-1.5 px-1 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 whitespace-nowrap overflow-hidden text-ellipsis">
+            <i data-lucide="arrow-left-right" class="w-3.5 h-3.5 text-indigo-500 shrink-0"></i>
+            <span class="truncate">Table Controls</span>
+        </div>
+
+        <button type="button" onclick="window.scrollActiveTable(1)" class="flex items-center gap-1.5 px-3 py-1 bg-gray-100 dark:bg-gray-800/80 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-indigo-950/60 active:scale-95 text-gray-700 dark:text-gray-200 font-bold text-xs rounded-full border border-gray-200/60 dark:border-gray-700/60 transition-all cursor-pointer whitespace-nowrap shrink-0">
+            <span class="text-[11px]">Scroll to End</span>
+            <i data-lucide="chevrons-right" class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400"></i>
+        </button>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <div id="notifOverlay" class="hidden fixed inset-0 bg-black/50 z-[45] backdrop-blur-sm transition-opacity"
+        onclick="closeNotifications()"></div>
+    <div id="notifPanel"
+        class="fixed top-0 bottom-0 right-0 w-[280px] md:w-80 bg-white h-auto shadow-[-4px_0_24px_rgba(0,0,0,0.04)] transform translate-x-full transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] z-50 flex flex-col border-l border-gray-100/60">
+        <div class="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600">
+                    <i data-lucide="bell" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h3 class="text-base font-bold text-gray-900">Notifications</h3>
+                    <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Update Feed</p>
+                </div>
+            </div>
+            <button onclick="closeNotifications()"
+                class="text-gray-400 hover:text-gray-900 p-2 rounded-xl hover:bg-gray-100 transition-all">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <div id="notifContent" class="flex-1 overflow-y-auto p-4 space-y-1">
+
+        </div>
+    </div>
+
+    <script type="module" src="/js/utils/offlineQueue.js"></script>
+    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/aiAssistant.js"></script>
+
+    <script>
+        function initAppScripts() {
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initAppScripts);
+        } else {
+            initAppScripts();
+        }
+    </script>
+
+    <div id="global-loader" class="hidden">
+        <div class="loader-content">
+            <div class="premium-spinner"></div>
+            <p id="loader-message" class="loader-text flex items-center justify-center gap-1">
+                <span>Just a moment</span>
+                <span class="inline-flex items-center ml-1 gap-1 text-indigo-600 dark:text-indigo-400 align-baseline">
+                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-current animate-ping-dot-1"></span>
+                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-current animate-ping-dot-2"></span>
+                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-current animate-ping-dot-3"></span>
+                </span>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

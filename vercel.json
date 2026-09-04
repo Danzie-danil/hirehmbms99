@@ -1,0 +1,98 @@
+{
+    "crons": [
+        {
+            "path": "/api/crons/scheduled-notifications",
+            "schedule": "30 4 * * *"
+        },
+        {
+            "path": "/api/crons/low-stock-alert",
+            "schedule": "0 10 * * *"
+        },
+        {
+            "path": "/api/crons/account-termination-reminder",
+            "schedule": "0 8 * * *"
+        }
+    ],
+    "headers": [
+        {
+            "source": "/(.*)",
+            "headers": [
+                {
+                    "key": "Strict-Transport-Security",
+                    "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                    "key": "X-Content-Type-Options",
+                    "value": "nosniff"
+                },
+                {
+                    "key": "X-Frame-Options",
+                    "value": "DENY"
+                },
+                {
+                    "key": "Referrer-Policy",
+                    "value": "strict-origin-when-cross-origin"
+                },
+                {
+                    "key": "Permissions-Policy",
+                    "value": "camera=(self), microphone=(self), geolocation=()"
+                },
+                {
+                    "key": "Content-Security-Policy-Report-Only",
+                    "value": "default-src 'self' https://*.supabase.co; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.bmstz.com http://localhost:* ws://localhost:* wss://localhost:*; worker-src 'self' blob:; frame-ancestors 'self';"
+                }
+            ]
+        }
+    ],
+    "redirects": [
+        {
+            "source": "/downloads/BMSTz.apk",
+            "destination": "https://pub-5f77889b51404f04a57b3a83e611a3fc.r2.dev/BMSTz.apk",
+            "permanent": false
+        },
+        {
+            "source": "/downloads/BMSTz-Setup.msi",
+            "destination": "https://pub-5f77889b51404f04a57b3a83e611a3fc.r2.dev/BMSTz-Setup.msi",
+            "permanent": false
+        },
+        {
+            "source": "/downloads/BMSTz-Setup.exe",
+            "destination": "https://pub-5f77889b51404f04a57b3a83e611a3fc.r2.dev/BMSTz-Setup.exe",
+            "permanent": false
+        }
+    ],
+    "rewrites": [
+        {
+            "source": "/app/:path*",
+            "destination": "/app/index.html"
+        },
+        {
+            "source": "/support",
+            "destination": "/support/index.html"
+        },
+        {
+            "source": "/support/:path*",
+            "destination": "/support/index.html"
+        },
+        {
+            "source": "/about",
+            "destination": "/about/index.html"
+        },
+        {
+            "source": "/about/:path*",
+            "destination": "/about/index.html"
+        },
+        {
+            "source": "/privacy",
+            "destination": "/privacy/index.html"
+        },
+        {
+            "source": "/terms",
+            "destination": "/terms/index.html"
+        },
+        {
+            "source": "/((?!assets/|api/|.*\\..*).*)",
+            "destination": "/index.html"
+        }
+    ]
+}

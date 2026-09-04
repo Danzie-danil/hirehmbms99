@@ -1,0 +1,222 @@
+{
+  "timestamp": "2026-09-04T10:05:03.088Z",
+  "supabaseUrl": "https://ojnxraxdynbhddfviweb.supabase.co",
+  "tables": [
+    {
+      "table": "sys_pricing_plans",
+      "count": 7,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "sys_admins",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "profiles",
+      "count": 7,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "branches",
+      "count": 11,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "staff",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "categories",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "suppliers",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "central_inventory",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "inventory",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "services",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "customers",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "customer_payments",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "loans",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "capital_accounts",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "capital_transactions",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "business_assets",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "business_loans",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "expenses",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "payroll",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "shifts",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "cash_drawer",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "cash_transactions",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "sales",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "stock_movements",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "stock_transfers",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "purchase_orders",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "quotations",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "invoices",
+      "count": 0,
+      "status": "SKIPPED",
+      "error": "Could not find the table 'public.invoices' in the schema cache"
+    },
+    {
+      "table": "product_returns",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "attendance",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "announcements",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "messages",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "chat_groups",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "group_members",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "requests",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "tasks",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "task_comments",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "notifications",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "admin_modal_messages",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "user_seen_modal_messages",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "sys_security_events",
+      "count": 0,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "sys_settings",
+      "count": 13,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "saas_audit_logs",
+      "count": 0,
+      "status": "SUCCESS"
+    }
+  ]
+}

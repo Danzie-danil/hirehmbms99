@@ -1,0 +1,67 @@
+[
+  {
+    "key": "enable_ai_assistant",
+    "value": "true",
+    "updatedAt": "2026-08-08T21:42:25.716255+00:00"
+  },
+  {
+    "key": "sys_admin_keyword",
+    "value": "sugarbuddy",
+    "updatedAt": "2026-08-09T00:14:03.55+00:00"
+  },
+  {
+    "key": "suspended_users",
+    "value": "[]",
+    "updatedAt": "2026-08-09T09:53:52.495+00:00"
+  },
+  {
+    "key": "admin_portal_tap_threshold",
+    "value": "21",
+    "updatedAt": "2026-08-20T03:19:35.869245+00:00"
+  },
+  {
+    "key": "app_version",
+    "value": "3.0.2",
+    "updatedAt": "2026-08-20T04:59:59.455929+00:00"
+  },
+  {
+    "key": "cron_job_settings",
+    "value": "{\"branch_shift_open\": true, \"branch_tasks_check\": true, \"branch_midday_restock\": true, \"branch_shift_close\": true, \"branch_daily_report\": true, \"unclosed_shift_check\": true, \"owner_morning\": true, \"owner_credit_followup\": true, \"owner_midday\": true, \"owner_transfers_check\": true, \"owner_evening\": true, \"low_stock_sentinel\": true}",
+    "updatedAt": "2026-08-20T05:19:09.424205+00:00"
+  },
+  {
+    "key": "allow_registrations",
+    "value": "true",
+    "updatedAt": "2026-08-24T15:53:49.012+00:00"
+  },
+  {
+    "key": "admin_portal_passcode",
+    "value": "daniel455518DaFe",
+    "updatedAt": "2026-08-15T08:00:16.873009+00:00"
+  },
+  {
+    "key": "maintenance_mode",
+    "value": "false",
+    "updatedAt": "2026-08-26T18:47:05.89+00:00"
+  },
+  {
+    "key": "show_update_banner",
+    "value": "true",
+    "updatedAt": "2026-08-30T16:39:33.248+00:00"
+  },
+  {
+    "key": "enable_modal_ai_assistant",
+    "value": "false",
+    "updatedAt": "2026-09-03T16:16:16.359+00:00"
+  },
+  {
+    "key": "admin_keyword",
+    "value": "daniel455518DaFe",
+    "updatedAt": "2026-08-16T01:37:53.417494+00:00"
+  },
+  {
+    "key": "disabled_modules",
+    "value": "[]",
+    "updatedAt": "2026-08-16T09:56:19.481494+00:00"
+  }
+]

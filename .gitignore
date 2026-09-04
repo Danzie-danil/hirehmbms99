@@ -1,0 +1,52 @@
+node_modules/
+dist/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.vscode/
+.idea/
+.DS_Store
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Supabase
+supabase/
+!supabase/functions/
+.supabase/
+supabase/.temp/
+supabase/functions/.env
+.vercel
+.env*
+sysadmin_credentials.txt
+vapid_keys.txt
+tauri_build_log.txt
+admin_features.sql
+config.toml
+sql/
+
+# Comment & Console Log Backup & Restoration
+comments_backup.json
+dev_source_backup.json
+restore_comments.js
+restore_comments.cjs
+prepare_production.cjs
+
+# Agents
+.agents/
+
+# Supabase Snapshots
+supabase-full-snapshot-*/
+*.secret
+
+# Compiled Binary Installers & Packages
+*.msi
+*.apk
+*.exe
+
+# Backups
+v2bms_backuproot/
+

@@ -1,0 +1,34 @@
+{
+  "timestamp": "2026-09-04T10:12:49.113Z",
+  "convexUrl": "https://lovely-rhinoceros-87.convex.cloud",
+  "results": [
+    {
+      "table": "sysSettings",
+      "inserted": 0,
+      "skipped": 13,
+      "total": 13,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "pricingPlans",
+      "inserted": 0,
+      "skipped": 7,
+      "total": 7,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "profiles",
+      "inserted": 0,
+      "skipped": 7,
+      "total": 7,
+      "status": "SUCCESS"
+    },
+    {
+      "table": "branches",
+      "inserted": 0,
+      "skipped": 11,
+      "total": 11,
+      "status": "SUCCESS"
+    }
+  ]
+}

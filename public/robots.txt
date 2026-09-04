@@ -1,0 +1,39 @@
+User-agent: *
+Allow: /
+Allow: /app/
+Allow: /app/index.html
+Allow: /app/*
+Allow: /support/
+Allow: /about/
+Allow: /terms/
+Allow: /privacy/
+Disallow: /api/
+
+# Explicit search engine web crawler permissions
+User-agent: Googlebot
+Allow: /
+Allow: /app/
+Allow: /app/*
+
+User-agent: Googlebot-Image
+Allow: /
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.ico
+Allow: /bmtzofficiallogo.png
+Allow: /bms_logo_official.png
+
+User-agent: Bingbot
+Allow: /
+Allow: /app/
+Allow: /app/*
+
+User-agent: DuckDuckBot
+Allow: /
+Allow: /app/
+Allow: /app/*
+
+# Sitemap Index Locations
+Sitemap: https://bmstz.com/sitemap.xml
+Sitemap: https://www.bmstz.com/sitemap.xml

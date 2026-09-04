@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Download BMSTz Native Apps</title>
+    <meta name="description"
+        content="Download BMSTz for Windows and Android for lightning-fast offline support and direct printer integrations.">
+    <link rel="icon" href="/bmtzofficiallogo.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        if (typeof tailwind !== 'undefined') {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            brand: '#475b6e',
+                            'brand-light': '#5d758c',
+                            'brand-dark': '#324250'
+                        },
+                        fontFamily: {
+                            sans: ['Inter', 'system-ui', 'sans-serif'],
+                        }
+                    }
+                }
+            };
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 32px 32px;
+            color: #0f172a;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .mask-edges-right {
+            mask-image: linear-gradient(to right, black 85%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-up {
+            animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+
+        .delay-100 {
+            animation-delay: 100ms;
+        }
+
+        .delay-200 {
+            animation-delay: 200ms;
+        }
+
+        .delay-300 {
+            animation-delay: 300ms;
+        }
+
+        .recommended-badge {
+            background: linear-gradient(45deg, #475b6e, #5d758c);
+            color: white;
+            animation: pulse-badge 2s infinite;
+        }
+
+        @keyframes pulse-badge {
+            0% {
+                box-shadow: 0 0 0 0 rgba(71, 91, 110, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 6px rgba(71, 91, 110, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(71, 91, 110, 0);
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col antialiased">
+
+    <!-- Navbar (Copied from landing page) -->
+    <nav id="mainNav"
+        class="fixed top-3 md:top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] md:w-[calc(100%-4rem)] max-w-7xl bg-white/90 backdrop-blur-md border-2 border-brand/20 rounded-full shadow-md">
+        <div id="navInner" class="pl-3 sm:pl-4 pr-1.5 md:px-5 lg:px-6 transition-all duration-500">
+            <div class="flex justify-between items-center h-12 md:h-16 gap-2 sm:gap-4 md:gap-6 lg:gap-8">
+                <a href="/" class="flex items-center shrink-0">
+                    <img src="/bmtzofficiallogo.png" alt="BMSTz Logo"
+                        class="h-8 w-8 md:h-10 md:w-10 rounded-xl shadow-sm hover:scale-105 transition-transform object-contain">
+                </a>
+                <div
+                    class="flex items-center justify-start md:justify-center gap-2 sm:gap-3 md:gap-4 lg:gap-5 overflow-x-auto whitespace-nowrap no-scrollbar shrink-0 mx-auto px-1">
+                    <a href="/#features"
+                        class="text-[12px] md:text-sm font-semibold text-gray-800 hover:text-brand transition-colors shrink-0">Features</a>
+                    <span class="text-brand/20 select-none">|</span>
+                    <a href="/#roles"
+                        class="text-[12px] md:text-sm font-semibold text-gray-800 hover:text-brand transition-colors shrink-0">Roles</a>
+                    <span class="text-brand/20 select-none">|</span>
+                    <a href="/#pricing"
+                        class="text-[12px] md:text-sm font-semibold text-gray-800 hover:text-brand transition-colors shrink-0">Pricing</a>
+                    <span class="text-brand/20 select-none">|</span>
+                    <a href="/about"
+                        class="text-[12px] md:text-sm font-semibold text-gray-800 hover:text-brand transition-colors shrink-0">About</a>
+                    <span class="text-brand/20 select-none">|</span>
+                    <a href="/support"
+                        class="text-[12px] md:text-sm font-semibold text-gray-800 hover:text-brand transition-colors shrink-0">Support</a>
+                </div>
+                <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+                    <a href="/app/index.html"
+                        class="inline-flex items-center justify-center px-3 py-1.5 md:px-5 md:py-2.5 text-[12px] md:text-sm font-bold text-white bg-brand hover:bg-brand-light rounded-full transition-all shadow-md shadow-brand/20 hover:-translate-y-0.5 shrink-0">
+                        Open App
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center pt-24 md:pt-32 pb-16 px-4 sm:px-6 relative overflow-hidden">
+
+        <!-- Floating background elements matching index.html -->
+        <div class="absolute top-1/4 left-0 w-72 h-72 bg-brand/10 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-float"
+            style="animation-delay: 0s;"></div>
+        <div class="absolute top-1/3 right-0 w-72 h-72 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-float"
+            style="animation-delay: 2s;"></div>
+
+        <div class="relative max-w-5xl w-full mx-auto text-center z-10">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight mb-4 fade-up delay-100">
+                Download the <span class="text-brand relative">Native App
+                    <svg class="absolute -bottom-2 w-full h-3 text-brand/30" viewBox="0 0 100 10"
+                        preserveAspectRatio="none">
+                        <path d="M0 5 Q 50 15 100 5" stroke="currentColor" stroke-width="4" fill="none" />
+                    </svg>
+                </span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-10 fade-up delay-200">
+                Experience lightning-fast offline support, direct printer integrations, and seamless background syncing.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-6 max-w-6xl mx-auto fade-up delay-300">
+
+                <!-- Windows EXE Card -->
+                <div id="card-windows-exe"
+                    class="glass-card rounded-[2rem] p-6 md:p-8 text-left border-2 border-transparent transition-all hover:-translate-y-1 hover:shadow-xl group flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-brand/10 text-brand flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <i data-lucide="monitor" class="w-7 h-7"></i>
+                        </div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <h2 class="text-xl md:text-2xl font-bold text-gray-900">Windows (.EXE)</h2>
+                            <span
+                                class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-md recommended-badge tracking-wider">Recommended</span>
+                        </div>
+                        <p class="text-gray-600 mb-6 text-xs md:text-sm leading-relaxed">Standard 1-click installer for
+                            Windows 10/11 POS counters, receipt printing, and local offline sync.</p>
+                    </div>
+                    <div>
+                        <a href="https://pub-5f77889b51404f04a57b3a83e611a3fc.r2.dev/BMSTz-Setup.exe" target="_blank"
+                            rel="noopener noreferrer"
+                            class="w-full py-3.5 bg-brand hover:bg-brand-light text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-brand/20 active:scale-95 text-xs md:text-sm">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                            Download .EXE Setup
+                        </a>
+                        <div class="flex items-center gap-2 mt-3">
+                            <button type="button" onclick="copyDownloadUrl('windows_exe', this)"
+                                class="flex-1 py-2 px-3 bg-white hover:bg-gray-50 text-gray-700 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all border border-gray-200 shadow-2xs active:scale-95 cursor-pointer">
+                                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                <span>Copy Link</span>
+                            </button>
+                            <button type="button" onclick="shareDownloadUrl('windows_exe')"
+                                class="flex-1 py-2 px-3 bg-white hover:bg-gray-50 text-gray-700 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all border border-gray-200 shadow-2xs active:scale-95 cursor-pointer">
+                                <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                        <p class="text-center text-[11px] text-gray-400 mt-3 font-semibold uppercase tracking-wider">
+                            Windows 10 / 11 • ~9 MB</p>
+                    </div>
+                </div>
+
+                <!-- Windows MSI Card -->
+                <div id="card-windows-msi"
+                    class="glass-card rounded-[2rem] p-6 md:p-8 text-left border-2 border-transparent transition-all hover:-translate-y-1 hover:shadow-xl group flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <i data-lucide="package" class="w-7 h-7"></i>
+                        </div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <h2 class="text-xl md:text-2xl font-bold text-gray-900">Windows (.MSI)</h2>
+                            <span
+                                class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-md bg-blue-100 text-blue-700 tracking-wider">Enterprise</span>
+                        </div>
+                        <p class="text-gray-600 mb-6 text-xs md:text-sm leading-relaxed">Enterprise WiX installer
+                            package for IT administrators and multi-workstation group deployments.</p>
+                    </div>
+                    <div>
+                        <a href="https://pub-5f77889b51404f04a57b3a83e611a3fc.r2.dev/BMSTz-Setup.msi" target="_blank"
+                            rel="noopener noreferrer"
+                            class="w-full py-3.5 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-slate-900/20 active:scale-95 text-xs md:text-sm">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                            Download .MSI Package
+                        </a>
+                        <div class="flex items-center gap-2 mt-3">
+                            <button type="button" onclick="copyDownloadUrl('windows_msi', this)"
+                                class="flex-1 py-2 px-3 bg-white hover:bg-gray-50 text-gray-700 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all border border-gray-200 shadow-2xs active:scale-95 cursor-pointer">
+                                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                <span>Copy Link</span>
+                            </button>
+                            <button type="button" onclick="shareDownloadUrl('windows_msi')"
+                                class="flex-1 py-2 px-3 bg-white hover:bg-gray-50 text-gray-700 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all border border-gray-200 shadow-2xs active:scale-95 cursor-pointer">
+                                <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                        <p class="text-center text-[11px] text-gray-400 mt-3 font-semibold uppercase tracking-wider">
+                            Windows 10 / 11 • ~10 MB</p>
+                    </div>
+                </div>
+
+                <!-- Android Card -->
+                <div id="card-android"
+                    class="glass-card rounded-[2rem] p-6 md:p-8 text-left border-2 border-transparent transition-all hover:-translate-y-1 hover:shadow-xl group flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <i data-lucide="smartphone" class="w-7 h-7"></i>
+                        </div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <h2 class="text-xl md:text-2xl font-bold text-gray-900">Android (.APK)</h2>
+                            <span id="badge-android"
+                                class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-700 tracking-wider">Mobile
+                                POS</span>
+                        </div>
+                        <p class="text-gray-600 mb-6 text-xs md:text-sm leading-relaxed">Touch POS billing, camera
+                            barcode scanner, live audit alerts, and lock-screen push notifications.</p>
+                    </div>
+                    <div>
+                        <a href="https://pub-5f77889b51404f04a57b3a83e611a3fc.r2.dev/BMSTz.apk" target="_blank"
+                            rel="noopener noreferrer"
+                            class="w-full py-3.5 bg-[#424940] hover:bg-[#343a32] text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-gray-900/20 active:scale-95 text-xs md:text-sm">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                            Download .APK
+                        </a>
+                        <div class="flex items-center gap-2 mt-3">
+                            <button type="button" onclick="copyDownloadUrl('android', this)"
+                                class="flex-1 py-2 px-3 bg-white hover:bg-gray-50 text-gray-700 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all border border-gray-200 shadow-2xs active:scale-95 cursor-pointer">
+                                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                <span>Copy Link</span>
+                            </button>
+                            <button type="button" onclick="shareDownloadUrl('android')"
+                                class="flex-1 py-2 px-3 bg-white hover:bg-gray-50 text-gray-700 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all border border-gray-200 shadow-2xs active:scale-95 cursor-pointer">
+                                <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                        <p class="text-center text-[11px] text-gray-400 mt-3 font-semibold uppercase tracking-wider">
+                            Android 9.0+ • Latest Build</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white/50 backdrop-blur-md border-t border-brand/10 py-8 text-center mt-auto">
+        <p class="text-sm font-semibold text-gray-500">&copy; 2026 BMSTz. All rights reserved.</p>
+    </footer>
+
+    <script>
+        window.showLandingNotification = function (msg) {
+            let toast = document.getElementById('landingToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'landingToast';
+                toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 bg-gray-900/90 backdrop-blur-md text-white rounded-full text-xs font-bold shadow-2xl flex items-center gap-2 transition-all duration-300 pointer-events-none opacity-0 translate-y-4';
+                document.body.appendChild(toast);
+            }
+            toast.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i><span>${msg}</span>`;
+            if (window.lucide) window.lucide.createIcons({ scope: toast });
+            toast.classList.remove('opacity-0', 'translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            clearTimeout(window._landingToastTimer);
+            window._landingToastTimer = setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-4');
+            }, 2800);
+        };
+
+        window.copyDownloadUrl = function (type, btnElement) {
+            const origin = (window.location.origin && !window.location.origin.includes('localhost')) ? window.location.origin : 'https://bmstz.com';
+            let url = `${origin}/downloads/`;
+            let label = 'Downloads Page';
+            if (type === 'windows_exe' || type === 'windows') {
+                url = `${origin}/downloads/BMSTz-Setup.exe`;
+                label = 'Windows Setup (.EXE)';
+            } else if (type === 'windows_msi') {
+                url = `${origin}/downloads/BMSTz-Setup.msi`;
+                label = 'Windows Package (.MSI)';
+            } else if (type === 'android') {
+                url = `${origin}/downloads/BMSTz.apk`;
+                label = 'Android App (.APK)';
+            }
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).then(() => {
+                    window.showLandingNotification(`Link for ${label} copied to clipboard!`);
+                    if (btnElement) {
+                        const origHtml = btnElement.innerHTML;
+                        btnElement.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i><span class="text-emerald-600 font-bold">Copied!</span>`;
+                        if (window.lucide) window.lucide.createIcons({ scope: btnElement });
+                        setTimeout(() => {
+                            btnElement.innerHTML = origHtml;
+                            if (window.lucide) window.lucide.createIcons({ scope: btnElement });
+                        }, 2000);
+                    }
+                }).catch(() => {
+                    window.fallbackCopyText(url, label);
+                });
+            } else {
+                window.fallbackCopyText(url, label);
+            }
+        };
+
+        window.fallbackCopyText = function (text, label) {
+            const el = document.createElement('textarea');
+            el.value = text;
+            el.setAttribute('readonly', '');
+            el.style.position = 'absolute';
+            el.style.left = '-9999px';
+            document.body.appendChild(el);
+            el.select();
+            try {
+                document.execCommand('copy');
+                window.showLandingNotification(`Link for ${label} copied!`);
+            } catch (e) {
+                window.showLandingNotification(`Link: ${text}`);
+            }
+            document.body.removeChild(el);
+        };
+
+        window.shareDownloadUrl = function (type) {
+            const origin = (window.location.origin && !window.location.origin.includes('localhost')) ? window.location.origin : 'https://bmstz.com';
+            let url = `${origin}/downloads/`;
+            let title = 'Download BMSTz Business Management System & POS';
+            let text = 'Download the official BMSTz native app:';
+
+            if (type === 'windows_exe' || type === 'windows') {
+                url = `${origin}/downloads/BMSTz-Setup.exe`;
+                title = 'Download BMSTz for Windows (.EXE)';
+                text = 'Download the native BMSTz Windows Setup (.EXE) for fast offline billing and receipt printing:';
+            } else if (type === 'windows_msi') {
+                url = `${origin}/downloads/BMSTz-Setup.msi`;
+                title = 'Download BMSTz for Windows (.MSI)';
+                text = 'Download the enterprise BMSTz Windows installer (.MSI):';
+            } else if (type === 'android') {
+                url = `${origin}/downloads/BMSTz.apk`;
+                title = 'Download BMSTz for Android (.APK)';
+                text = 'Download the BMSTz Android app (.APK) for live store management, cashier POS and push notifications:';
+            }
+
+            if (navigator.share) {
+                navigator.share({ title, text, url }).catch(() => { });
+            } else {
+                window.copyDownloadUrl(type);
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            const windowsCard = document.getElementById('card-windows');
+            const androidCard = document.getElementById('card-android');
+            const badgeWindows = document.getElementById('badge-windows');
+            const badgeAndroid = document.getElementById('badge-android');
+
+            if (/windows phone/i.test(userAgent) || /windows/i.test(userAgent)) {
+                windowsCard.classList.add('border-brand/40', 'ring-4', 'ring-brand/10');
+                badgeWindows.classList.remove('hidden');
+            } else if (/android/i.test(userAgent)) {
+                androidCard.classList.add('border-brand/40', 'ring-4', 'ring-brand/10');
+                badgeAndroid.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+{
+    "$schema":  "../gen/schemas/desktop-schema.json",
+    "identifier":  "default",
+    "description":  "enables the default permissions",
+    "windows":  [
+                    "main"
+                ],
+    "permissions":  [
+                        "core:default",
+                        "fs:default",
+                        "fs:allow-appdata-read",
+                        "fs:allow-appdata-read-recursive",
+                        "fs:allow-appdata-write",
+                        "fs:allow-appdata-write-recursive",
+                        "fs:allow-applocaldata-read",
+                        "fs:allow-applocaldata-read-recursive",
+                        "fs:allow-applocaldata-write",
+                        "fs:allow-applocaldata-write-recursive",
+                        "fs:allow-read-text-file",
+                        "fs:allow-write-text-file",
+                        "fs:allow-stat",
+                        "dialog:default",
+                        "notification:default",
+                        "notification:allow-is-permission-granted",
+                        "notification:allow-request-permission",
+                        "notification:allow-notify"
+                    ]
+}

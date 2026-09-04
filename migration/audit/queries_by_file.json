@@ -1,0 +1,2512 @@
+[
+  {
+    "file": "js/admin/communications.js",
+    "table": "sys_broadcasts",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "sys_banners",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "sys_popups",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "sys_email_drafts",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "sys_push_notifications",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "sys_push_templates",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "sys_settings",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "sys_settings",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "sys_push_subscriptions",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "sys_email_drafts",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "sys_email_drafts",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "sys_email_drafts",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "sys_email_drafts",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "sys_email_drafts",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "sys_settings",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "table": "sys_settings",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_settings",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_banners",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_email_drafts",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_pricing_plans",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_settings",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_settings",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_banners",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_banners",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_banners",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_scheduled_toasts",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_scheduled_toasts",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_tickets",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_tickets",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_tickets",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_audit_logs",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_pricing_plans",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_pricing_plans",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_pricing_plans",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_pricing_plans",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_pricing_plans",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_pricing_plans",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "support_requests",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "support_requests",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "support_requests",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_audit_logs",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_settings",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_audit_logs",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sys_security_events",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "expenses",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "central_inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "quotations",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "requests",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "stock_transfers",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "stock_movements",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "customers",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "suppliers",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "staff",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "table": "central_inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/impersonation.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/impersonation.js",
+    "table": "sys_audit_logs",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/impersonation.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/impersonation.js",
+    "table": "sys_audit_logs",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/surveys.js",
+    "table": "sys_surveys",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/surveys.js",
+    "table": "sys_survey_responses",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/surveys.js",
+    "table": "sys_surveys",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/surveys.js",
+    "table": "sys_surveys",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/surveys.js",
+    "table": "sys_surveys",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/surveys.js",
+    "table": "sys_surveys",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/surveys.js",
+    "table": "sys_surveys",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/surveys.js",
+    "table": "sys_survey_responses",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/surveys.js",
+    "table": "sys_surveys",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/watchdog.js",
+    "table": "sys_settings",
+    "type": "from"
+  },
+  {
+    "file": "js/admin/watchdog.js",
+    "table": "sys_audit_logs",
+    "type": "from"
+  },
+  {
+    "file": "js/aiAssistant.js",
+    "table": "sys_settings",
+    "type": "from"
+  },
+  {
+    "file": "js/aiAssistant.js",
+    "table": "sys_ai_chat_messages",
+    "type": "from"
+  },
+  {
+    "file": "js/aiAssistant.js",
+    "table": "sys_ai_chat_messages",
+    "type": "from"
+  },
+  {
+    "file": "js/aiAssistant.js",
+    "table": "sys_ai_chat_messages",
+    "type": "from"
+  },
+  {
+    "file": "js/aiAssistant.js",
+    "table": "sys_ai_chat_messages",
+    "type": "from"
+  },
+  {
+    "file": "js/aiAssistant.js",
+    "table": "sys_ai_prompts",
+    "type": "from"
+  },
+  {
+    "file": "js/aiAssistant.js",
+    "table": "sys_ai_chat_messages",
+    "type": "from"
+  },
+  {
+    "file": "js/aiAssistant.js",
+    "table": "sys_ai_chat_messages",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "sys_scheduled_toasts",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "requests",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "access_requests",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "task_comments",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "tasks",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "stock_transfers",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "product_returns",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "requests",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "tasks",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "task_comments",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "tasks",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "shifts",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "announcements",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "stock_transfers",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "product_returns",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "tasks",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "access_requests",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "task_comments",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "stock_transfers",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "product_returns",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "tasks",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "tasks",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "task_comments",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "shifts",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "announcements",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "stock_transfers",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "product_returns",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "access_requests",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "access_requests",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "sys_settings",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "sys_settings",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/app.js",
+    "table": "sys_settings",
+    "type": "from"
+  },
+  {
+    "file": "js/auth.js",
+    "table": "sys_settings",
+    "type": "from"
+  },
+  {
+    "file": "js/auth.js",
+    "table": "sys_settings",
+    "type": "from"
+  },
+  {
+    "file": "js/auth.js",
+    "table": "sys_settings",
+    "type": "from"
+  },
+  {
+    "file": "js/auth.js",
+    "table": "sys_settings",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/cash_drawer.js",
+    "table": "cash_drawers",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/cash_drawer.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/cash_drawer.js",
+    "table": "expenses",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/cash_drawer.js",
+    "table": "cash_transactions",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/cash_drawer.js",
+    "table": "cash_drawer",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/cash_drawer.js",
+    "table": "requests",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/cash_drawer.js",
+    "table": "cash_drawer",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/cash_drawer.js",
+    "table": "cash_drawer",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/cash_drawer.js",
+    "table": "cash_transactions",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/cash_drawer.js",
+    "table": "cash_drawer",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/cash_drawer.js",
+    "table": "cash_drawer",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/cash_drawer.js",
+    "table": "cash_drawer",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/expenses.js",
+    "table": "expenses",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/invoices.js",
+    "table": "documents",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/sales.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/sales.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/shift_summary.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/shift_summary.js",
+    "table": "expenses",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/shift_summary.js",
+    "table": "attendance",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/shift_summary.js",
+    "table": "cash_drawer",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/shift_summary.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/shift_summary.js",
+    "table": "expenses",
+    "type": "from"
+  },
+  {
+    "file": "js/branch/shift_summary.js",
+    "table": "requests",
+    "type": "from"
+  },
+  {
+    "file": "js/data/networkStatus.js",
+    "table": "sys_settings",
+    "type": "from"
+  },
+  {
+    "file": "js/data/repositories/dashboardRepository.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/data/repositories/dashboardRepository.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/data/repositories/dashboardRepository.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/data/repositories/dashboardRepository.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/data/repositories/dashboardRepository.js",
+    "table": "tasks",
+    "type": "from"
+  },
+  {
+    "file": "js/data/repositories/dashboardRepository.js",
+    "table": "tasks",
+    "type": "from"
+  },
+  {
+    "file": "js/data/repositories/dashboardRepository.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "table": "customers",
+    "type": "from"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "table": "central_inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "table": "central_inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "table": "central_inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "table": "suppliers",
+    "type": "from"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "table": "loans",
+    "type": "from"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "table": "business_loans",
+    "type": "from"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "table": "stock_transfers",
+    "type": "from"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "table": "product_returns",
+    "type": "from"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "table": "tasks",
+    "type": "from"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "table": "capital_accounts",
+    "type": "from"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "table": "capital_transactions",
+    "type": "from"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "table": "business_assets",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "access_requests",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "categories",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "categories",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sale_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sale_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sale_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sale_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "expenses",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "expenses",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "expenses",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "expenses",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "expenses",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "expenses",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "expense_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "expense_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "expense_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "customers",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "customers",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "customers",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "customers",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "customers",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "customers",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "customer_payments",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "customers",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "customers",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "customers",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "customer_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "customer_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "customer_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "central_inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "central_inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "central_inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "central_inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "central_inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "central_inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "central_inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "central_inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "central_inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "central_inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "central_inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "stock_movements",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "expenses",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "central_inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "central_inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "stock_movements",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "expenses",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "stock_movements",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "stock_movements",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "tasks",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "tasks",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "tasks",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "tasks",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "tasks",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "tasks",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "task_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "task_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "task_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "task_comments",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "task_comments",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "task_comments",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "task_comments",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "notes",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "notes",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "notes",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "notes",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "notes",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "notes",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "note_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "note_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "note_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "loans",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "loans",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "loans",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "loans",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "loans",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "loans",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "loan_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "loan_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "loan_tags",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "expenses",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "tasks",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "requests",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "requests",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "requests",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "requests",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "requests",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory_purchases",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "inventory_purchases",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "pinned_messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "pinned_messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "pinned_messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "chat_groups",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "group_members",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "chat_groups",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "starred_messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "starred_messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "starred_messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "archived_conversations",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "archived_conversations",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "chat-attachments",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "chat-attachments",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "staff",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "staff",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "staff",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "staff",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "staff",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "staff",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "attendance",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "attendance",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "attendance",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "attendance",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "attendance",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "attendance",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "suppliers",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "suppliers",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "suppliers",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "suppliers",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "suppliers",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "purchase_orders",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "purchase_orders",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "po_items",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "purchase_orders",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "quotations",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "quotations",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "quotation_items",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "quotations",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "quotation_items",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "quotations",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "quotations",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "quotations",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "documents",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "documents",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "documents",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "documents",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "document_items",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "documents",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "documents",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "capital_accounts",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "capital_accounts",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "capital_accounts",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "capital_accounts",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "capital_transactions",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "capital_transactions",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "capital_accounts",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "capital_accounts",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "business_assets",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "business_assets",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "business_assets",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "business_assets",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "business_assets",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "asset_maintenance_logs",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "asset_maintenance_logs",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "asset_maintenance_logs",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "business_loans",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "business_loans",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "business_loans",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "business_loans",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "business_loans",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "loan_repayments",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "loan_repayments",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "payroll",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "payroll",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "payroll",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "payroll",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "shifts",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "shifts",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "shifts",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "shifts",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "announcements",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "announcements",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "announcements",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "promotions",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "promotions",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "promotions",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "promotions",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "goals",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "tasks",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "customers",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "goals",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "goals",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sys_pricing_plans",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "saas_audit_logs",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sys_custom_roles",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sys_custom_roles",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "products",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "customers",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "expenses",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "expenses",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "tasks",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "requests",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sys_active_sessions",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "saas_audit_logs",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sys_popups",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sys_surveys",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sys_survey_responses",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sys_survey_responses",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sys_banners",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "sys_tickets",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "stock_transfers",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "stock_transfers",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "product_returns",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "product_returns",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "product_returns",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "customers",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "loyalty_transactions",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "loyalty_transactions",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "admin_modal_messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "user_seen_modal_messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "user_seen_modal_messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "admin_modal_messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "admin_modal_messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "admin_modal_messages",
+    "type": "from"
+  },
+  {
+    "file": "js/db.js",
+    "table": "admin_modal_messages",
+    "type": "from"
+  },
+  {
+    "file": "js/i18n.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/lifecycle.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/modals.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/modals.js",
+    "table": "branches",
+    "type": "from"
+  },
+  {
+    "file": "js/modals.js",
+    "table": "branch_inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/modals.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/modals.js",
+    "table": "customers",
+    "type": "from"
+  },
+  {
+    "file": "js/modals.js",
+    "table": "suppliers",
+    "type": "from"
+  },
+  {
+    "file": "js/modals.js",
+    "table": "staff",
+    "type": "from"
+  },
+  {
+    "file": "js/modals.js",
+    "table": "expenses",
+    "type": "from"
+  },
+  {
+    "file": "js/modals.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/modals.js",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "js/modals.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/modals.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/notifications.js",
+    "table": "notification_reads",
+    "type": "from"
+  },
+  {
+    "file": "js/notifications.js",
+    "table": "notification_reads",
+    "type": "from"
+  },
+  {
+    "file": "js/notifications.js",
+    "table": "notification_reads",
+    "type": "from"
+  },
+  {
+    "file": "js/owner/overview.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/owner/report_pdf_engine.js",
+    "table": "sales",
+    "type": "from"
+  },
+  {
+    "file": "js/owner/report_pdf_engine.js",
+    "table": "expenses",
+    "type": "from"
+  },
+  {
+    "file": "js/owner/report_pdf_engine.js",
+    "table": "product_returns",
+    "type": "from"
+  },
+  {
+    "file": "js/owner/report_pdf_engine.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/owner/report_pdf_engine.js",
+    "table": "shifts",
+    "type": "from"
+  },
+  {
+    "file": "js/owner/report_pdf_engine.js",
+    "table": "tasks",
+    "type": "from"
+  },
+  {
+    "file": "js/owner/report_pdf_engine.js",
+    "table": "loans",
+    "type": "from"
+  },
+  {
+    "file": "js/owner/requests.js",
+    "table": "inventory",
+    "type": "from"
+  },
+  {
+    "file": "js/owner/staff.js",
+    "table": "sys_custom_roles",
+    "type": "from"
+  },
+  {
+    "file": "js/owner/tasks.js",
+    "table": "tasks",
+    "type": "from"
+  },
+  {
+    "file": "js/pushNotifications.js",
+    "table": "sys_push_subscriptions",
+    "type": "from"
+  },
+  {
+    "file": "js/pushNotifications.js",
+    "table": "sys_push_subscriptions",
+    "type": "from"
+  },
+  {
+    "file": "js/pushNotifications.js",
+    "table": "sys_push_subscriptions",
+    "type": "from"
+  },
+  {
+    "file": "js/updateChecker.js",
+    "table": "sys_settings",
+    "type": "from"
+  },
+  {
+    "file": "supabase/functions/resend-broadcast/index.ts",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "supabase/functions/resend-broadcast/index.ts",
+    "table": "sys_email_broadcasts",
+    "type": "from"
+  },
+  {
+    "file": "supabase/functions/snippe-webhook/index.ts",
+    "table": "sys_audit_logs",
+    "type": "from"
+  },
+  {
+    "file": "supabase/functions/snippe-webhook/index.ts",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "supabase/functions/snippe-webhook/index.ts",
+    "table": "sys_pricing_plans",
+    "type": "from"
+  },
+  {
+    "file": "supabase/functions/snippe-webhook/index.ts",
+    "table": "profiles",
+    "type": "from"
+  },
+  {
+    "file": "supabase/functions/snippe-webhook/index.ts",
+    "table": "saas_audit_logs",
+    "type": "from"
+  }
+]

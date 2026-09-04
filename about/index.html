@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>About Platform & Operational Manual - BMSTz</title>
+    <meta name="description" content="Comprehensive operational guide, data security model, system architecture, subscription tiers, and feature specification for BMSTz Business Management System.">
+    <meta name="keywords" content="BMSTz documentation, BMSTz architecture, business management app Tanzania, biashara mauzo system, BMSTz pricing, BMSTz user guide">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://bmstz.com/about/" />
+
+    <!-- OpenGraph Metadata -->
+    <meta property="og:title" content="About Platform & Operational Manual - BMSTz">
+    <meta property="og:description" content="Comprehensive operational architecture, multi-tenant security model, and feature specifications for BMSTz.">
+    <meta property="og:url" content="https://bmstz.com/about/">
+    <meta property="og:site_name" content="BMSTz">
+    <meta property="og:type" content="article">
+    <meta property="og:image" content="https://bmstz.com/bmtzofficiallogo.png">
+
+    <!-- Twitter Card Metadata -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="About Platform & Operational Manual - BMSTz">
+    <meta name="twitter:description" content="Detailed platform guide, subscription tiers, and operational specifications for BMSTz.">
+    <meta name="twitter:image" content="https://bmstz.com/bmtzofficiallogo.png">
+
+    <!-- Schema.org JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "BMSTz Platform Architecture and Operational Manual",
+      "description": "Technical specification, multi-branch security model, cloud sync architecture, and subscription tiers for BMSTz Business Management System.",
+      "url": "https://bmstz.com/about/",
+      "image": "https://bmstz.com/bmtzofficiallogo.png",
+      "author": {
+        "@type": "Organization",
+        "name": "BMSTz Team",
+        "url": "https://bmstz.com/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "BMSTz",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://bmstz.com/bmtzofficiallogo.png"
+        }
+      }
+    }
+    </script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <script>(function(){const w=console.warn;console.warn=function(...a){if(a[0]&&typeof a[0]==='string'&&a[0].includes('cdn.tailwindcss.com'))return;w.apply(console,a);};})();</script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        if (typeof tailwind !== 'undefined' && tailwind) {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            brand: '#475b6e',
+                            'brand-light': '#5d758c',
+                        }
+                    }
+                }
+            };
+        }
+    </script>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
+
+        .prose h2 { font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-top: 2.5rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; border-bottom: 2px solid #f1f5f9; padding-bottom: 0.5rem; }
+        .prose h3 { font-size: 1.15rem; font-weight: 700; color: #1e293b; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+        .prose p { margin-bottom: 1rem; color: #475569; line-height: 1.75; font-size: 0.95rem; }
+        .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #475569; }
+        .prose li { margin-bottom: 0.35rem; line-height: 1.6; }
+
+        .pdf-header { border-bottom: 3px solid #475b6e; padding-bottom: 1rem; margin-bottom: 2rem; }
+        @media print {
+            nav, footer, button, .no-print { display: none !important; }
+            main { padding-top: 0 !important; max-width: 100% !important; }
+            body { background: white !important; }
+            #document-content { border: none !important; box-shadow: none !important; padding: 0 !important; }
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <nav class="fixed top-3 md:top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] md:w-[calc(100%-4rem)] max-w-6xl bg-white/90 backdrop-blur-md border-2 border-brand/20 rounded-full shadow-md transition-all duration-300">
+        <div class="px-4 sm:px-6 py-2.5">
+            <div class="flex justify-between items-center">
+                <a href="/" class="flex items-center shrink-0 group hover:opacity-90 transition-opacity">
+                    <img src="/bmtzofficiallogo.png" alt="BMSTz Logo" class="w-8 h-8 md:w-9 md:h-9 rounded-full shadow-sm object-contain">
+                </a>
+                <div class="flex items-center gap-1.5 sm:gap-3">
+                    <a href="/" class="inline-flex items-center justify-center gap-1 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-bold text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full transition-all" title="Back to Home">
+                        <i data-lucide="arrow-left" class="w-3.5 h-3.5 md:w-4 md:h-4"></i>
+                        <span>Back</span>
+                    </a>
+                    <button onclick="generatePDF(event)" class="inline-flex items-center gap-1.5 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-bold text-brand bg-brand/10 hover:bg-brand/20 border border-brand/20 rounded-full transition-all active:scale-95">
+                        <i data-lucide="download-cloud" class="w-3.5 h-3.5 md:w-4 md:h-4"></i>
+                        <span class="hidden sm:inline">Download PDF</span>
+                        <span class="sm:hidden">PDF</span>
+                    </button>
+                    <a href="/app/" class="inline-flex items-center justify-center px-3 py-1.5 md:px-5 md:py-2 text-xs md:text-sm font-bold text-white bg-brand hover:bg-brand-light rounded-full transition-all shadow-md shadow-brand/20 hover:-translate-y-0.5">
+                        Launch App
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 md:pt-28 pb-12 md:pb-20 w-full">
+
+        <div class="bg-gradient-to-br from-slate-900 via-brand to-slate-800 rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 text-white shadow-lg mb-6 md:mb-8 relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
+
+            <div class="flex flex-wrap items-center gap-1.5 mb-3">
+                <span class="px-2.5 py-0.5 bg-white/10 backdrop-blur-md rounded-full text-[10px] md:text-xs font-bold uppercase tracking-wider text-emerald-300 border border-white/10">
+                    Official Documentation
+                </span>
+                <span class="px-2.5 py-0.5 bg-white/10 backdrop-blur-md rounded-full text-[10px] md:text-xs font-bold uppercase tracking-wider text-indigo-200 border border-white/10">
+                    Architecture & Operations
+                </span>
+            </div>
+
+            <h1 class="text-lg sm:text-2xl md:text-3xl font-extrabold tracking-tight mb-2 leading-snug">
+                About BMSTz & Operational Manual
+            </h1>
+            <p class="text-slate-300 text-xs sm:text-sm max-w-2xl leading-normal mb-4 font-normal">
+                A comprehensive operational manual detailing platform capabilities, data security models, cloud synchronization, financial auditing, branch management, subscription limits, and account lifecycle.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-3 pt-3 border-t border-white/10 text-[11px] sm:text-xs text-slate-300 font-semibold">
+                <div class="flex items-center gap-1">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    <span>Enterprise Data Security</span>
+                </div>
+                <div class="flex items-center gap-1">
+                    <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-indigo-400"></i>
+                    <span>Real-Time Cloud Sync</span>
+                </div>
+                <div class="flex items-center gap-1">
+                    <i data-lucide="file-text" class="w-3.5 h-3.5 text-amber-400"></i>
+                    <span>Exportable PDF Manual</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 md:p-5 border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 mb-10 no-print">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-brand/10 text-brand flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="file-badge-2" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-gray-900">Need a Printable Copy?</h3>
+                    <p class="text-xs text-gray-500">Download the complete operational handbook formatted in official PDF styling.</p>
+                </div>
+            </div>
+            <button onclick="generatePDF(event)" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand hover:bg-brand-light text-white font-bold text-sm rounded-xl transition-all shadow-md shadow-brand/20 active:scale-95 whitespace-nowrap">
+                <i data-lucide="download" class="w-4 h-4"></i>
+                Download Official PDF
+            </button>
+        </div>
+
+        <div id="document-content" class="bg-white p-6 sm:p-10 md:p-12 rounded-3xl shadow-sm border border-slate-200/80 prose max-w-none text-slate-800">
+
+            <div class="pdf-header flex items-center justify-between pb-6 mb-8 border-b-2 border-slate-100">
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <img src="/logo.jpg" alt="BMSTz Logo" class="w-8 h-8 rounded-lg shadow-sm">
+                        <span class="text-2xl font-black text-slate-900 tracking-tight">BMSTz Platform Manual</span>
+                    </div>
+                    <p class="text-xs text-slate-400 font-semibold">Multi-Tenant Business Management System &bull; Official Guide</p>
+                </div>
+                <div class="text-right hidden sm:block">
+                    <span class="inline-block px-3 py-1 bg-slate-100 text-slate-700 font-bold text-xs rounded-full">Official Manual</span>
+                    <p class="text-[11px] text-slate-400 mt-1">Generated: <span id="doc-date"></span></p>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200/70 mb-8 not-prose">
+                <h3 class="text-sm font-extrabold text-slate-900 uppercase tracking-wider mb-3 flex items-center gap-2">
+                    <i data-lucide="list-tree" class="w-4 h-4 text-brand"></i> Manual Table of Contents
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-semibold text-slate-700">
+                    <a href="#section-1" class="hover:text-brand flex items-center gap-1.5"><span class="text-brand font-bold">1.</span> Executive Overview & Platform Mission</a>
+                    <a href="#section-2" class="hover:text-brand flex items-center gap-1.5"><span class="text-brand font-bold">2.</span> Platform Architecture & Real-Time Operation</a>
+                    <a href="#section-3" class="hover:text-brand flex items-center gap-1.5"><span class="text-brand font-bold">3.</span> Data Collection, Privacy & Security Protocols</a>
+                    <a href="#section-4" class="hover:text-brand flex items-center gap-1.5"><span class="text-brand font-bold">4.</span> Cloud Backups & Session Safeguards</a>
+                    <a href="#section-5" class="hover:text-brand flex items-center gap-1.5"><span class="text-brand font-bold">5.</span> Financial Intelligence, Reports & Exports</a>
+                    <a href="#section-6" class="hover:text-brand flex items-center gap-1.5"><span class="text-brand font-bold">6.</span> Business Owner Operations</a>
+                    <a href="#section-7" class="hover:text-brand flex items-center gap-1.5"><span class="text-brand font-bold">7.</span> Branch Operations, POS & Inventory Control</a>
+                    <a href="#section-8" class="hover:text-brand flex items-center gap-1.5"><span class="text-brand font-bold">8.</span> Subscription Tiers & Account Lifecycle</a>
+                </div>
+            </div>
+
+            <div id="section-1" class="scroll-mt-32">
+                <h2>
+                    <i data-lucide="compass" class="w-6 h-6 text-brand"></i>
+                    1. Executive Overview & Platform Mission
+                </h2>
+                <p>
+                    <strong>BMSTz (Business Management System)</strong> is an enterprise-grade cloud management software designed to centralize, monitor, and streamline operations for single and multi-branch retail, wholesale, service, and logistics businesses.
+                </p>
+                <p>
+                    The platform connects business owners with ground-level branch operations by providing real-time financial tracking, inventory management, Point-of-Sale (POS) cash drawer control, staff attendance monitoring, and audit trails within a unified, responsive interface.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-4 not-prose">
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <div class="text-brand font-bold text-base mb-1 flex items-center gap-1.5">
+                            <i data-lucide="layers" class="w-4 h-4"></i> Data Isolation
+                        </div>
+                        <p class="text-xs text-slate-600">Strict organizational privacy ensuring each business network operates independently.</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <div class="text-brand font-bold text-base mb-1 flex items-center gap-1.5">
+                            <i data-lucide="zap" class="w-4 h-4"></i> High-Speed POS
+                        </div>
+                        <p class="text-xs text-slate-600">Optimized sales register designed for fast processing and reliable cloud backup.</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <div class="text-brand font-bold text-base mb-1 flex items-center gap-1.5">
+                            <i data-lucide="shield" class="w-4 h-4"></i> Role Control
+                        </div>
+                        <p class="text-xs text-slate-600">Granular access controls governing Business Owners, Branch Managers, and Staff.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-2" class="scroll-mt-32">
+                <h2>
+                    <i data-lucide="cpu" class="w-6 h-6 text-brand"></i>
+                    2. Platform Architecture & Real-Time Operation
+                </h2>
+                <p>
+                    BMSTz is built upon high-performance cloud infrastructure, combining modern browser interfaces with secure, scalable database services.
+                </p>
+
+                <h3>A. Real-Time Cloud Synchronization</h3>
+                <p>
+                    The platform maintains persistent live cloud connections. When a transaction (such as a POS sale, stock transfer, or task assignment) occurs at any branch, updates are broadcast instantly across all authorized owner and branch dashboards without requiring manual page reloads.
+                </p>
+
+                <h3>B. Client Performance & Offline Protection</h3>
+                <p>
+                    Essential operational data such as active catalog items, branch lists, and active sessions are stored securely in local browser memory to guarantee instant response times. If internet connectivity momentarily drops, transactions remain smooth and sync back automatically once reconnected.
+                </p>
+
+                <h3>C. Role-Based Authentication & Access Control</h3>
+                <p>
+                    The system enforces distinct access levels upon sign-in:
+                </p>
+                <ul>
+                    <li><strong>Business Owner Account:</strong> Authenticated with primary credentials, granting complete administrative control across all enterprise branches.</li>
+                    <li><strong>Branch Manager Account:</strong> Authenticated with assigned branch credentials and a 6-digit security PIN, restricting access strictly to the assigned location.</li>
+                </ul>
+            </div>
+
+            <div id="section-3" class="scroll-mt-32">
+                <h2>
+                    <i data-lucide="lock" class="w-6 h-6 text-brand"></i>
+                    3. Data Collection, Privacy & Security Protocols
+                </h2>
+                <p>
+                    BMSTz enforces strict privacy guidelines and security safeguards to ensure your business data remains confidential and protected.
+                </p>
+
+                <h3>A. Categories of Processed Information</h3>
+                <p>
+                    To deliver business functionality, the platform manages the following data categories:
+                </p>
+                <ul>
+                    <li><strong>Business & Profile Information:</strong> Business Name, Owner Full Name, Mobile Phone, Primary Email Address, Business Logo, and Currency Settings.</li>
+                    <li><strong>Branch Configuration:</strong> Branch Location, Branch Name, Manager Assignments, Operating Hours, and Access PINs.</li>
+                    <li><strong>Sales & Financial Logs:</strong> Sales receipts, payment channels (Cash, Card, Mobile Money, Bank Transfer), items sold, tax details, and expense categories.</li>
+                    <li><strong>Operations & Audit Logs:</strong> Inter-branch stock transfers, shift clock-in/out records, supplier details, debt tracking, and system audit logs.</li>
+                </ul>
+
+                <h3>B. Enterprise Data Isolation & Protection</h3>
+                <p>
+                    All customer databases are protected by strict enterprise security rules. Business data is strictly isolated so that no organization can view or access another business’s records under any circumstance.
+                </p>
+
+                <h3>C. Configurable Session Duration & Auto-Logout</h3>
+                <p>
+                    Business Owners can configure automatic session timeout periods in Security Settings (default: 8 hours). Once a session expires, the application automatically logs out to prevent unauthorized access on shared computers.
+                </p>
+            </div>
+
+            <div id="section-4" class="scroll-mt-32">
+                <h2>
+                    <i data-lucide="database" class="w-6 h-6 text-brand"></i>
+                    4. Cloud Backups & Session Safeguards
+                </h2>
+                <p>
+                    Business continuity is protected through continuous automated cloud backups and secure session management.
+                </p>
+
+                <h3>A. Automated Cloud Backups</h3>
+                <p>
+                    All operational records, product catalogs, sales receipts, and audit logs are backed up continuously on redundant enterprise cloud servers, safeguarding your data against hardware failures.
+                </p>
+
+                <h3>B. Secure Logout & Memory Wipe</h3>
+                <p>
+                    When a user logs out, BMSTz executes a security teardown by closing active data channels, clearing temporary browser storage, and resetting the application interface.
+                </p>
+
+                <h3>C. Scheduled System Maintenance</h3>
+                <p>
+                    During scheduled platform updates, Maintenance Mode may be enabled. Users attempting to log in receive a clear notification informing them when full operations will resume.
+                </p>
+            </div>
+
+            <div id="section-5" class="scroll-mt-32">
+                <h2>
+                    <i data-lucide="bar-chart-3" class="w-6 h-6 text-brand"></i>
+                    5. Financial Intelligence, Reports & Exports
+                </h2>
+                <p>
+                    BMSTz includes a comprehensive financial reporting suite providing clear visibility into business revenue, costs, and profit margins.
+                </p>
+
+                <h3>A. Real-Time Financial Aggregation</h3>
+                <p>
+                    The financial module automatically calculates key metrics over customizable date ranges:
+                </p>
+                <ul>
+                    <li><strong>Gross Revenue:</strong> Aggregate value of completed sales across all selected locations.</li>
+                    <li><strong>Operating Expenses:</strong> Categorized business costs (Rent, Utilities, Salaries, Purchases).</li>
+                    <li><strong>Net Profit & Margin:</strong> Automated Profit & Loss (P&L) breakdown with profit margin percentages.</li>
+                    <li><strong>Payment Breakdown:</strong> Income distribution across Cash, Cards, Mobile Payments, and Bank Wire.</li>
+                </ul>
+
+                <h3>B. Custom Report Builder (Exclusive Tier)</h3>
+                <p>
+                    Exclusive plan subscribers have access to the Custom Report Builder. Owners can select key financial metrics, group reports by branch or payment channel, apply custom date filters, and review comparative performance charts.
+                </p>
+
+                <h3>C. Formatted PDF & CSV Data Exports</h3>
+                <p>
+                    Financial reports can be exported in two formats:
+                </p>
+                <ul>
+                    <li><strong>Executive PDF Reports:</strong> Generates styled summary documents complete with period headers, branch tables, and profit metrics.</li>
+                    <li><strong>Raw Data CSV Export:</strong> Exports spreadsheet datasets compatible with accounting software like Excel and QuickBooks.</li>
+                </ul>
+            </div>
+
+            <div id="section-6" class="scroll-mt-32">
+                <h2>
+                    <i data-lucide="user-check" class="w-6 h-6 text-brand"></i>
+                    6. Business Owner Operations
+                </h2>
+                <p>
+                    The Business Owner Portal provides complete control over multi-branch governance, security settings, and team permissions.
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 not-prose my-4">
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                        <h4 class="font-bold text-slate-900 text-sm mb-1 flex items-center gap-1.5">
+                            <i data-lucide="building" class="w-4 h-4 text-brand"></i> Multi-Branch Control
+                        </h4>
+                        <p class="text-xs text-slate-600">Create branches, assign managers, set sales targets, specify operating hours, and update access PINs.</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                        <h4 class="font-bold text-slate-900 text-sm mb-1 flex items-center gap-1.5">
+                            <i data-lucide="shield-alert" class="w-4 h-4 text-brand"></i> Role-Based Access Control
+                        </h4>
+                        <p class="text-xs text-slate-600">Configure custom access roles (Enterprise+), specifying modular permissions for register sales, inventory edits, or financial reports.</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                        <h4 class="font-bold text-slate-900 text-sm mb-1 flex items-center gap-1.5">
+                            <i data-lucide="calendar" class="w-4 h-4 text-brand"></i> Shift & Attendance Management
+                        </h4>
+                        <p class="text-xs text-slate-600">Schedule employee shifts, track clock-in/out records, and monitor shift summaries across all branches.</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                        <h4 class="font-bold text-slate-900 text-sm mb-1 flex items-center gap-1.5">
+                            <i data-lucide="webhook" class="w-4 h-4 text-brand"></i> API & Webhook Integrations
+                        </h4>
+                        <p class="text-xs text-slate-600">Generate secure API tokens and configure automated webhooks (Exclusive Plan) for external system connections.</p>
+                    </div>
+                    <div class="p-4 bg-emerald-50/70 rounded-2xl border border-emerald-200 sm:col-span-2">
+                        <h4 class="font-bold text-slate-900 text-sm mb-1 flex items-center gap-1.5">
+                            <i data-lucide="radio-tower" class="w-4 h-4 text-emerald-600 animate-pulse"></i> Live Handshake Support Protocol
+                        </h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Owner-permissioned real-time technical assistance. Official support specialists can only connect to your active workspace after you explicitly click <em>"Grant Live Access"</em>. The session features live visual action sync, complete credential anonymization (100% untraceable official support identifier), and instant owner controls to <strong>Pause Sync</strong> or <strong>Revoke Access</strong> at any second.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-7" class="scroll-mt-32">
+                <h2>
+                    <i data-lucide="store" class="w-6 h-6 text-brand"></i>
+                    7. Branch Operations, POS & Inventory Control
+                </h2>
+                <p>
+                    Branch interfaces are streamlined for fast execution by managers and cashiers.
+                </p>
+
+                <h3>A. Point-of-Sale (POS) & Cash Drawer</h3>
+                <p>
+                    The POS register supports product searching, cart compilation, discounts, multi-payment processing, and receipt printing. Cash drawers track opening balances, cash movements, and end-of-shift balancing.
+                </p>
+
+                <h3>B. Central Inventory & Inter-Branch Stock Transfers</h3>
+                <p>
+                    Inventory quantities are monitored per branch. On Exclusive plans, the Central Inventory Dispatcher manages multi-warehouse stock transfers between branches with real-time approval tracking.
+                </p>
+
+                <h3>C. Low-Stock Warnings & Restock Alerts</h3>
+                <p>
+                    When product quantities fall below minimum thresholds, low-stock notifications highlight items on executive overview dashboards, allowing owners to send restock tasks directly to managers.
+                </p>
+
+                <h3>D. Barcode Creation, Label Printing & Camera Scanning</h3>
+                <p>
+                    BMSTz provides built-in CODE128 barcode generation and camera scanning for all catalog items:
+                </p>
+                <ul>
+                    <li><strong>SKU-to-Barcode Mapping:</strong> Every product's SKU field serves as its barcode identifier. Use existing manufacturer barcodes (UPC/EAN) or enter custom SKU codes (e.g. <code>BEV-001</code>).</li>
+                    <li><strong>Automatic Barcode Rendering:</strong> Opening any product details view automatically generates a high-resolution CODE128 barcode graphic ready for printing onto price tags or label stickers.</li>
+                    <li><strong>Dual POS Scanning:</strong> Cashiers can scan product barcodes using standard USB/Bluetooth hardware scanners or the built-in mobile camera scanner directly inside the web application.</li>
+                </ul>
+            </div>
+
+            <div id="section-8" class="scroll-mt-32">
+                <h2>
+                    <i data-lucide="credit-card" class="w-6 h-6 text-brand"></i>
+                    8. Subscription Tiers & Account Lifecycle
+                </h2>
+                <p>
+                    BMSTz offers transparent subscription plans tailored to business size.
+                </p>
+
+                <div class="overflow-x-auto not-prose my-6">
+                    <table class="w-full text-xs text-left border-collapse border border-slate-200 rounded-2xl overflow-hidden">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-900 font-bold border-b border-slate-200">
+                                <th class="p-3">Plan Tier</th>
+                                <th class="p-3">Branch Limit</th>
+                                <th class="p-3">Monthly Billing</th>
+                                <th class="p-3">Annual Billing (Discounted)</th>
+                                <th class="p-3">Included Features</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-slate-700 font-medium">
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-blue-600">Starter Plan</td>
+                                <td class="p-3 font-bold">Up to 3 Branches</td>
+                                <td class="p-3 font-bold text-slate-900">TZS 5,000 / mo</td>
+                                <td class="p-3">
+                                    <span class="font-bold text-indigo-600">TZS 52,800 / yr</span>
+                                    <span class="block text-[10px] text-emerald-600 font-bold">12% OFF (Save TZS 7,200/yr)</span>
+                                </td>
+                                <td class="p-3">Core Reporting &amp; Stock Audit, Unlimited Sales &amp; POS Till Sync, Multi-User PINs, Basic Support, Offline Cache</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 bg-indigo-50/30">
+                                <td class="p-3 font-bold text-indigo-600">Enterprise Plan</td>
+                                <td class="p-3 font-bold">Up to 10 Branches</td>
+                                <td class="p-3 font-bold text-slate-900">TZS 15,000 / mo</td>
+                                <td class="p-3">
+                                    <span class="font-bold text-indigo-600">TZS 158,400 / yr</span>
+                                    <span class="block text-[10px] text-emerald-600 font-bold">12% OFF (Save TZS 21,600/yr)</span>
+                                </td>
+                                <td class="p-3">Everything in Starter + Custom Branding &amp; White-label UI, Advanced Analytics, Shift &amp; Attendance Management, Low-Stock Alert Notifications, Custom Roles</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 bg-emerald-50/30">
+                                <td class="p-3 font-bold text-emerald-600">Exclusive Plan</td>
+                                <td class="p-3 font-bold">Unlimited Branches</td>
+                                <td class="p-3 font-bold text-slate-900">TZS 25,000 / mo</td>
+                                <td class="p-3">
+                                    <span class="font-bold text-emerald-700">TZS 255,000 / yr</span>
+                                    <span class="block text-[10px] text-emerald-600 font-bold">15% OFF (Save TZS 45,000/yr)</span>
+                                </td>
+                                <td class="p-3">Everything in Enterprise + AI Strategic Intelligence, Custom Report Builder, Multi-Warehouse Logistics &amp; Inter-Branch Dispatcher, API Keys &amp; Webhooks, VIP Server Priority, Dedicated SLA</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>A. Free Trial & Account Protection</h3>
+                <p>
+                    New accounts include a <strong>7-Day Free Trial</strong> with access to Starter features. If a subscription is not activated prior to trial expiration, account access is safely paused while protecting all stored business records.
+                </p>
+
+                <h3>B. Registration & PIN Recovery</h3>
+                <p>
+                    Registration requires owner email verification. If a branch manager forgets their security access PIN, an in-app PIN reset request can be sent to the business owner for approval.
+                </p>
+
+                <h3>C. Subscription Cancellation & Data Retention</h3>
+                <p>
+                    Owners can cancel subscriptions at any time. Upon cancellation, account access is paused while historical branch sales, inventory, and reports remain safely stored in cloud backups. Full account deletion permanently purges all tenant records upon owner request.
+                </p>
+            </div>
+
+            <div class="mt-12 pt-6 border-t-2 border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 font-semibold not-prose">
+                <div>
+                    <p>&copy; 2026 BMSTz Platform. All rights reserved.</p>
+                    <p class="text-[11px] text-slate-400 font-normal">Business Management System &bull; Official Platform Guide</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="/privacy" class="hover:text-brand">Privacy Policy</a>
+                    <span>|</span>
+                    <a href="/terms" class="hover:text-brand">Terms of Service</a>
+                    <span>|</span>
+                    <a href="/support" class="hover:text-brand">Support</a>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer class="bg-slate-900 text-white border-t border-slate-800 py-10 mt-auto">
+        <div class="max-w-6xl mx-auto px-4 text-center text-xs text-slate-400">
+            <div class="flex items-center justify-center gap-2 mb-3">
+                <img src="/logo.jpg" alt="BMSTz Logo" class="w-6 h-6 rounded-lg">
+                <span class="font-bold text-white text-base">BMSTz Platform</span>
+            </div>
+            <p class="mb-4">Empowering modern enterprises with intelligent multi-branch software.</p>
+            <div class="flex items-center justify-center gap-3 text-slate-300 font-semibold mb-4">
+                <a href="/app/" class="hover:text-white text-emerald-400 font-bold">Launch App</a>
+                <span class="text-slate-700">|</span>
+                <a href="/" class="hover:text-white">Home</a>
+                <span class="text-slate-700">|</span>
+                <a href="/about" class="hover:text-white text-white font-bold">About & Architecture</a>
+                <span class="text-slate-700">|</span>
+                <a href="/support" class="hover:text-white">Support Center</a>
+                <span class="text-slate-700">|</span>
+                <a href="/privacy" class="hover:text-white">Privacy Policy</a>
+            </div>
+            <p>&copy; 2026 BMSTz. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+
+        lucide.createIcons();
+
+        document.getElementById('doc-date').textContent = new Date().toLocaleDateString('en-US', {
+            year: 'numeric', month: 'long', day: 'numeric'
+        });
+
+        function generatePDF(evt) {
+            const targetElement = document.getElementById('document-content');
+            if (!targetElement) return;
+
+            const btn = evt?.currentTarget || document.querySelector('button[onclick*="generatePDF"]');
+            let origHtml = '';
+            if (btn) {
+                origHtml = btn.innerHTML;
+                btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Generating PDF...`;
+                btn.disabled = true;
+                lucide.createIcons();
+            }
+
+            const opt = {
+                margin:       [0.8, 0.4, 0.8, 0.4],
+                filename:     'BMSTz_Platform_Specification_and_Operations.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    scrollY: 0,
+                    scrollX: 0,
+                    onclone: (clonedDoc) => {
+
+                        const clonedNav = clonedDoc.querySelector('nav');
+                        if (clonedNav) clonedNav.style.display = 'none';
+                        const clonedMain = clonedDoc.querySelector('main');
+                        if (clonedMain) clonedMain.style.paddingTop = '0px';
+                        const clonedBanner = clonedDoc.querySelector('.bg-gradient-to-br');
+                        if (clonedBanner) clonedBanner.style.display = 'none';
+                        const clonedActionBar = clonedDoc.querySelector('.no-print');
+                        if (clonedActionBar) clonedActionBar.style.display = 'none';
+                    }
+                },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
+                pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+            };
+
+            const cleanup = () => {
+                if (btn) {
+                    btn.innerHTML = origHtml;
+                    btn.disabled = false;
+                    lucide.createIcons();
+                }
+            };
+
+            if (window.html2pdf) {
+                html2pdf().set(opt).from(targetElement).toPdf().get('pdf').then(function(pdf) {
+                    const totalPages = pdf.internal.getNumberOfPages();
+                    for (let i = 1; i <= totalPages; i++) {
+                        pdf.setPage(i);
+                        pdf.setFontSize(8);
+                        pdf.setTextColor(100, 116, 139);
+
+                        if (i > 1) {
+                            pdf.text('BMSTz Platform Operational Manual', 0.4, 0.38);
+                            pdf.setDrawColor(226, 232, 240);
+                            pdf.setLineWidth(0.01);
+                            pdf.line(0.4, 0.48, 8.1, 0.48);
+                        }
+
+                        pdf.setDrawColor(226, 232, 240);
+                        pdf.setLineWidth(0.01);
+                        pdf.line(0.4, 10.42, 8.1, 10.42);
+                        pdf.setFontSize(8);
+                        pdf.setTextColor(100, 116, 139);
+                        pdf.text('Official Platform Manual — Confidential & Proprietary', 0.4, 10.62);
+                        pdf.text(`Page ${i} of ${totalPages}`, 7.3, 10.62);
+                    }
+                }).save().then(cleanup).catch(err => {
+                    console.error('PDF Generation error:', err);
+                    cleanup();
+                    window.print();
+                });
+            } else {
+                cleanup();
+                window.print();
+            }
+        }
+    </script>
+</body>
+</html>

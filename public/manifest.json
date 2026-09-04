@@ -1,0 +1,53 @@
+{
+    "id": "/app/",
+    "name": "BMSTz - Business Management System",
+    "short_name": "BMSTz",
+    "description": "BMSTz – Business Management System. Manage inventory, sales, expenses, staff, and multi-branch operations efficiently.",
+    "start_url": "/app/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#0b141a",
+    "theme_color": "#4f46e5",
+    "orientation": "any",
+    "categories": [
+        "business",
+        "finance",
+        "productivity"
+    ],
+    "icons": [
+        {
+            "src": "/favicon-32x32.png?v=2.9.32",
+            "sizes": "32x32",
+            "type": "image/png"
+        },
+        {
+            "src": "/apple-touch-icon.png?v=2.9.32",
+            "sizes": "180x180",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-192x192.png?v=2.9.32",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icon-384x384.png?v=2.9.32",
+            "sizes": "384x384",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icon-512x512.png?v=2.9.32",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/bmtzofficiallogo.png?v=2.9.32",
+            "sizes": "1024x1024",
+            "type": "image/png",
+            "purpose": "any"
+        }
+    ]
+}

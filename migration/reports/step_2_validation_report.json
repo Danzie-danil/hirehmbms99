@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-09-04T10:12:54.536Z",
+  "convexUrl": "https://lovely-rhinoceros-87.convex.cloud",
+  "status": "VERIFIED_SUCCESS",
+  "comparison": [
+    {
+      "table": "sysSettings",
+      "expectedTransformed": 13,
+      "actualConvex": 13,
+      "status": "MATCH"
+    },
+    {
+      "table": "pricingPlans",
+      "expectedTransformed": 7,
+      "actualConvex": 7,
+      "status": "MATCH"
+    },
+    {
+      "table": "profiles",
+      "expectedTransformed": 7,
+      "actualConvex": 7,
+      "status": "MATCH"
+    },
+    {
+      "table": "branches",
+      "expectedTransformed": 11,
+      "actualConvex": 11,
+      "status": "MATCH"
+    },
+    {
+      "table": "migrationIdMap",
+      "expectedTransformed": 25,
+      "actualConvex": 25,
+      "status": "MATCH"
+    }
+  ],
+  "summary": "All migrated tables in Convex match the source transformed records with 100% fidelity. Zero data loss."
+}

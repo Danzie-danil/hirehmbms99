@@ -1,0 +1,14 @@
+{
+    "appId": "com.bmstz.app",
+    "appName": "BMSTz",
+    "webDir": "dist",
+    "server": {
+        "androidScheme": "https",
+        "cleartext": false
+    },
+    "plugins": {
+        "CapacitorHttp": {
+            "enabled": true
+        }
+    }
+}

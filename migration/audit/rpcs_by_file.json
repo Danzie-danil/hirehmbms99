@@ -1,0 +1,278 @@
+[
+  {
+    "file": "js/admin/communications.js",
+    "rpc": "save_admin_push_draft"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "rpc": "sysadmin_dispatch_push_broadcast"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "rpc": "sysadmin_get_push_subscribers_overview"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "rpc": "get_admin_push_draft"
+  },
+  {
+    "file": "js/admin/communications.js",
+    "rpc": "create_sys_broadcast"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "rpc": "get_admin_dashboard_summary"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "rpc": "get_tenant_360_data"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "rpc": "start_privileged_support_session"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "rpc": "end_privileged_support_session"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "rpc": "sysadmin_update_subscription"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "rpc": "create_sys_banner"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "rpc": "delete_sys_banner"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "rpc": "publish_codebase_update_release"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "rpc": "log_sys_admin_action"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "rpc": "log_admin_action"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "rpc": "run_platform_health_diagnostics"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "rpc": "sysadmin_cancel_tenant_deletion"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "rpc": "sysadmin_extend_deletion_grace"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "rpc": "sysadmin_toggle_deletion_freeze"
+  },
+  {
+    "file": "js/admin/dashboard.js",
+    "rpc": "sysadmin_purge_tenant_permanently"
+  },
+  {
+    "file": "js/admin/handshake.js",
+    "rpc": "request_sysadmin_handshake"
+  },
+  {
+    "file": "js/admin/impersonation.js",
+    "rpc": "get_user_effective_entitlements"
+  },
+  {
+    "file": "js/admin/impersonation.js",
+    "rpc": "get_user_effective_entitlements"
+  },
+  {
+    "file": "js/admin/stepUpModal.js",
+    "rpc": "verify_sys_admin"
+  },
+  {
+    "file": "js/admin/stepUpModal.js",
+    "rpc": "verify_step_up_reauth"
+  },
+  {
+    "file": "js/admin/surveys.js",
+    "rpc": "get_sys_survey_kpi_summary"
+  },
+  {
+    "file": "js/admin/surveys.js",
+    "rpc": "clear_sys_survey_responses"
+  },
+  {
+    "file": "js/admin/surveys.js",
+    "rpc": "get_sys_survey_analytics"
+  },
+  {
+    "file": "js/auth.js",
+    "rpc": "verify_sys_admin"
+  },
+  {
+    "file": "js/auth.js",
+    "rpc": "register_sysadmin_session"
+  },
+  {
+    "file": "js/auth.js",
+    "rpc": "validate_admin_portal_passcode"
+  },
+  {
+    "file": "js/auth.js",
+    "rpc": "validate_admin_portal_access"
+  },
+  {
+    "file": "js/auth.js",
+    "rpc": "validate_admin_portal_access"
+  },
+  {
+    "file": "js/auth.js",
+    "rpc": "get_user_effective_entitlements"
+  },
+  {
+    "file": "js/auth.js",
+    "rpc": "validate_user_login_role"
+  },
+  {
+    "file": "js/auth.js",
+    "rpc": "is_sys_admin"
+  },
+  {
+    "file": "js/auth.js",
+    "rpc": "get_user_effective_entitlements"
+  },
+  {
+    "file": "js/auth.js",
+    "rpc": "get_user_effective_entitlements"
+  },
+  {
+    "file": "js/data/repositories/salesRepository.js",
+    "rpc": "create_sale"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "rpc": "create_sale"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "rpc": "create_expense"
+  },
+  {
+    "file": "js/data/syncManager.js",
+    "rpc": "create_central_item"
+  },
+  {
+    "file": "js/db.js",
+    "rpc": "create_branch_manager"
+  },
+  {
+    "file": "js/db.js",
+    "rpc": "reset_branch_manager_password"
+  },
+  {
+    "file": "js/db.js",
+    "rpc": "update_branch_preferences"
+  },
+  {
+    "file": "js/db.js",
+    "rpc": "delete_branch_cascade"
+  },
+  {
+    "file": "js/db.js",
+    "rpc": "get_branch_sales_summary"
+  },
+  {
+    "file": "js/db.js",
+    "rpc": "get_branch_profit_stats"
+  },
+  {
+    "file": "js/db.js",
+    "rpc": "create_sale"
+  },
+  {
+    "file": "js/db.js",
+    "rpc": "create_expense"
+  },
+  {
+    "file": "js/db.js",
+    "rpc": "create_central_item"
+  },
+  {
+    "file": "js/db.js",
+    "rpc": "delete_central_item"
+  },
+  {
+    "file": "js/db.js",
+    "rpc": "bulk_delete_central_items"
+  },
+  {
+    "file": "js/db.js",
+    "rpc": "dispatch_central_stock"
+  },
+  {
+    "file": "js/db.js",
+    "rpc": "return_stock_to_main_store"
+  },
+  {
+    "file": "js/db.js",
+    "rpc": "transfer_branch_to_branch_stock"
+  },
+  {
+    "file": "js/db.js",
+    "rpc": "create_branch_item"
+  },
+  {
+    "file": "js/db.js",
+    "rpc": "create_purchase_order"
+  },
+  {
+    "file": "js/db.js",
+    "rpc": "submit_sys_survey_response"
+  },
+  {
+    "file": "js/db.js",
+    "rpc": "get_active_sys_banners"
+  },
+  {
+    "file": "js/db.js",
+    "rpc": "record_banner_cta_click"
+  },
+  {
+    "file": "js/modals.js",
+    "rpc": "request_account_deletion"
+  },
+  {
+    "file": "js/modals.js",
+    "rpc": "cancel_account_deletion"
+  },
+  {
+    "file": "js/offline_queue.js",
+    "rpc": "create_sale"
+  },
+  {
+    "file": "js/permissions.js",
+    "rpc": "update_device_push_preferences"
+  },
+  {
+    "file": "js/pushNotifications.js",
+    "rpc": "register_push_subscription"
+  },
+  {
+    "file": "js/updateChecker.js",
+    "rpc": "record_device_app_update"
+  },
+  {
+    "file": "js/utils/offlineQueue.js",
+    "rpc": "create_sale"
+  },
+  {
+    "file": "supabase/functions/snippe-webhook/index.ts",
+    "rpc": "activate_user_subscription"
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "version": "2.5.0",
+  "date": "2026-08-15",
+  "title": "Release Notes",
+  "notes": [
+    "📱 Optimized mobile and desktop design, as well as responsive platform controls"
+    "Added Multiple features in the Reports for both Business owners and Branches"
+  ]
+}
